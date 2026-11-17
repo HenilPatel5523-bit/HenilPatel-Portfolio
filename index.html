@@ -1,0 +1,3133 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Henil Patel — Electronics Engineering &amp; Hardware Prototyping Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Three.js for Interactive 3D CAD Simulation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,600&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['Fraunces', 'serif'],
+            display: ['Fraunces', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    :root {
+      /* Default Vintage Theme: "Antique Brass & Amber" */
+      --accent: #b47834;
+      --accent-mid: #966023;
+      --accent-deep: #6f4211;
+      --accent-rgb: 180, 120, 52;
+      --accent-mid-rgb: 150, 96, 35;
+      --bg-canvas: #faf6f0;
+      --card-bg: #ffffff;
+      --card-border: rgba(180, 140, 95, 0.22);
+      --ink-primary: #1d1814;
+      --ink-secondary: #483d33;
+      --ink-muted: #786b5e;
+      --badge-bg: #f4eee2;
+      --badge-border: #dfd2be;
+    }
+
+    body[data-theme="brass"] {
+      --accent: #b47834;
+      --accent-mid: #966023;
+      --accent-deep: #6f4211;
+      --accent-rgb: 180, 120, 52;
+      --accent-mid-rgb: 150, 96, 35;
+      --bg-canvas: #faf6f0;
+      --card-bg: #ffffff;
+      --card-border: rgba(180, 140, 95, 0.22);
+      --ink-primary: #1d1814;
+      --ink-secondary: #483d33;
+      --ink-muted: #786b5e;
+      --badge-bg: #f4eee2;
+      --badge-border: #dfd2be;
+    }
+
+    body[data-theme="blueprint"] {
+      --accent: #1e5bb8;
+      --accent-mid: #14438b;
+      --accent-deep: #0e2d5e;
+      --accent-rgb: 30, 91, 184;
+      --accent-mid-rgb: 20, 67, 139;
+      --bg-canvas: #f6f8fb;
+      --card-bg: #ffffff;
+      --card-border: rgba(30, 91, 184, 0.18);
+      --ink-primary: #0f172a;
+      --ink-secondary: #334155;
+      --ink-muted: #64748b;
+      --badge-bg: #eef3fb;
+      --badge-border: #cbdcf4;
+    }
+
+    body[data-theme="verdigris"] {
+      --accent: #236c4b;
+      --accent-mid: #185237;
+      --accent-deep: #0f3925;
+      --accent-rgb: 35, 108, 75;
+      --accent-mid-rgb: 24, 82, 55;
+      --bg-canvas: #f6f8f5;
+      --card-bg: #ffffff;
+      --card-border: rgba(35, 108, 75, 0.18);
+      --ink-primary: #14211a;
+      --ink-secondary: #304539;
+      --ink-muted: #5e7467;
+      --badge-bg: #eef3ef;
+      --badge-border: #cbdbd1;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-canvas);
+      color: var(--ink-secondary);
+      overflow-x: hidden;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    /* Vintage Drafting Paper Grid Pattern */
+    .vintage-grid {
+      background-color: var(--bg-canvas);
+      background-image:
+        radial-gradient(circle at 72% 45%, rgba(var(--accent-rgb), 0.14) 0%, rgba(var(--accent-mid-rgb), 0.04) 38%, transparent 66%),
+        radial-gradient(circle at 18% 22%, rgba(200, 160, 110, 0.09) 0%, transparent 48%),
+        linear-gradient(to right, rgba(160, 135, 105, 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(160, 135, 105, 0.08) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+    }
+
+    /* Dynamic Accent Classes */
+    .text-accent {
+      color: var(--accent);
+    }
+    .bg-accent-soft {
+      background-color: rgba(var(--accent-rgb), 0.1);
+    }
+    .border-accent-soft {
+      border-color: rgba(var(--accent-rgb), 0.3);
+    }
+    .glow-accent {
+      box-shadow: 0 0 24px rgba(var(--accent-rgb), 0.22);
+    }
+    .hero-name-gradient {
+      background: linear-gradient(110deg, var(--ink-primary) 20%, var(--accent) 65%, var(--accent-mid) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Elegant Vintage Paper Cards */
+    .vintage-card {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 10px 25px -8px rgba(70, 50, 30, 0.06), 0 2px 6px -2px rgba(70, 50, 30, 0.03);
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .vintage-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(var(--accent-rgb), 0.45);
+      box-shadow: 0 18px 38px -12px rgba(70, 50, 30, 0.12), 0 0 0 1px rgba(var(--accent-rgb), 0.25);
+    }
+
+    /* 3D Automaton Robot Stage */
+    .robot-stage {
+      perspective: 1100px;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .robot-levitate {
+      animation: robotLevitate 4.6s ease-in-out infinite;
+      transform-style: preserve-3d;
+    }
+
+    .robot-tilt {
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    @keyframes robotLevitate {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-13px);
+      }
+    }
+
+    /* Floor Glow & Ambient Shadow */
+    .robot-floor-glow {
+      animation: floorPulse 4.6s ease-in-out infinite;
+      background: radial-gradient(ellipse at center, rgba(var(--accent-rgb), 0.26) 0%, rgba(130, 95, 55, 0.15) 45%, transparent 72%);
+    }
+
+    @keyframes floorPulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.95;
+      }
+      50% {
+        transform: scale(0.85);
+        opacity: 0.55;
+      }
+    }
+
+    /* Antenna Finial Glow */
+    .antenna-sphere {
+      transition: transform 0.25s ease, filter 0.25s ease;
+      filter: drop-shadow(0 0 6px var(--accent)) drop-shadow(0 0 14px rgba(var(--accent-rgb), 0.7));
+    }
+
+    .robot-stage:hover .antenna-sphere {
+      filter: drop-shadow(0 0 10px #ffffff) drop-shadow(0 0 20px var(--accent));
+    }
+
+    /* Floating Badges */
+    @keyframes badgeFloatSlow {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
+    }
+    .floating-badge-1 { animation: badgeFloatSlow 5s ease-in-out infinite; }
+    .floating-badge-2 { animation: badgeFloatSlow 6s ease-in-out 1.2s infinite; }
+    .floating-badge-3 { animation: badgeFloatSlow 5.4s ease-in-out 2.1s infinite; }
+    .floating-badge-4 { animation: badgeFloatSlow 5.8s ease-in-out 0.8s infinite; }
+
+    /* 3D CAD Prototype Viewport Styles */
+    .cad-viewport-stage {
+      perspective: 1200px;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .cad-model-card {
+      transform-style: preserve-3d;
+      will-change: transform;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .cad-hotspot-pin {
+      transform-style: preserve-3d;
+      transform: translateZ(28px);
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .cad-hotspot-pin:hover {
+      transform: translateZ(36px) scale(1.15);
+    }
+
+    /* Star Rating Selector Styles */
+    .star-btn {
+      transition: transform 0.15s ease, color 0.15s ease;
+    }
+    .star-btn:hover {
+      transform: scale(1.25);
+    }
+
+    /* Scroll Reveal */
+    .reveal-section {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.65s ease-out, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal-section.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 9px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-canvas);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cfc4b2;
+      border-radius: 9999px;
+      border: 2px solid var(--bg-canvas);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #b5a894;
+    }
+  </style>
+</head>
+<body data-theme="brass" class="antialiased selection:bg-[#e8d5be] selection:text-[#382a1b]">
+
+  <!-- ==================== VINTAGE STICKY NAVBAR ==================== -->
+  <header class="sticky top-0 z-40 bg-[#faf6f0]/90 backdrop-blur-md border-b border-[#e5dcce] transition-colors duration-300">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <!-- Brand Logo / Vintage Seal -->
+      <a href="#home" class="flex items-center gap-3 group">
+        <div class="w-9 h-9 rounded-xl bg-[#ffffff] border border-[#d9ccb9] flex items-center justify-center font-serif font-bold text-base text-[#1d1814] shadow-sm group-hover:border-accent-soft group-hover:shadow transition-all">
+          HP<span class="text-accent">.</span>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-serif font-bold text-base text-[#1d1814] tracking-tight leading-none">Henil Patel</span>
+          <span class="font-mono text-[10px] text-[#786b5e] tracking-wider mt-0.5 hidden sm:inline">HP.LAB // ELECTRONICS &amp; HARDWARE</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-[#483d33]">
+        <a href="#home" class="hover:text-[#1d1814] transition-colors">Home</a>
+        <a href="#about" class="hover:text-[#1d1814] transition-colors">About</a>
+        <a href="#skills" class="hover:text-[#1d1814] transition-colors">Skills</a>
+        <a href="#projects" class="hover:text-[#1d1814] transition-colors">Projects</a>
+        <a href="#experience" class="hover:text-[#1d1814] transition-colors">Experience</a>
+        <a href="#feedback" class="hover:text-[#1d1814] transition-colors font-semibold text-accent">Feedback</a>
+        <a href="#contact" class="hover:text-[#1d1814] transition-colors">Contact</a>
+      </nav>
+
+      <!-- Vintage Theme Switcher & Mobile Menu Button -->
+      <div class="flex items-center gap-3">
+        <!-- Theme Pill Switcher: Brass / Blueprint / Verdigris -->
+        <div class="inline-flex items-center p-1 rounded-full bg-[#f0e8dc] border border-[#d9ccba] text-xs shadow-inner" role="group" aria-label="Vintage Engineering Palette Switcher">
+          <button
+            type="button"
+            data-set-theme="brass"
+            title="Antique Brass &amp; Amber Vacuum Tube Palette"
+            class="theme-btn px-2.5 py-1 rounded-full font-medium transition-all flex items-center gap-1.5 bg-[#ffffff] text-[#966023] shadow-sm font-mono text-[11px]"
+          >
+            <span class="w-2.5 h-2.5 rounded-full bg-[#b47834] shadow-[0_0_6px_#b47834]"></span>
+            <span>Brass</span>
+          </button>
+          <button
+            type="button"
+            data-set-theme="blueprint"
+            title="Draftsman Cyanotype Blueprint Palette"
+            class="theme-btn px-2.5 py-1 rounded-full font-medium text-[#64748b] hover:text-[#0f172a] transition-all flex items-center gap-1.5 font-mono text-[11px]"
+          >
+            <span class="w-2.5 h-2.5 rounded-full bg-[#1e5bb8]"></span>
+            <span class="hidden sm:inline">Blueprint</span>
+          </button>
+          <button
+            type="button"
+            data-set-theme="verdigris"
+            title="Classic Verdigris Patina &amp; Sage Palette"
+            class="theme-btn px-2.5 py-1 rounded-full font-medium text-[#64748b] hover:text-[#0f172a] transition-all flex items-center gap-1.5 font-mono text-[11px]"
+          >
+            <span class="w-2.5 h-2.5 rounded-full bg-[#236c4b]"></span>
+            <span class="hidden sm:inline">Verdigris</span>
+          </button>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button
+          id="mobileMenuBtn"
+          type="button"
+          aria-label="Open Navigation Menu"
+          class="md:hidden p-2 rounded-xl bg-white border border-[#d9ccb9] text-[#483d33] hover:text-[#1d1814] shadow-sm"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Drawer -->
+    <div id="mobileMenu" class="hidden md:hidden bg-[#fbf8f2] border-b border-[#e5dcce] px-4 pt-2 pb-4 space-y-1">
+      <a href="#home" class="mobile-nav-link block px-3 py-2 rounded-xl text-sm font-medium text-[#1d1814] hover:bg-[#efe7da]">Home</a>
+      <a href="#about" class="mobile-nav-link block px-3 py-2 rounded-xl text-sm font-medium text-[#1d1814] hover:bg-[#efe7da]">About</a>
+      <a href="#skills" class="mobile-nav-link block px-3 py-2 rounded-xl text-sm font-medium text-[#1d1814] hover:bg-[#efe7da]">Skills</a>
+      <a href="#projects" class="mobile-nav-link block px-3 py-2 rounded-xl text-sm font-medium text-[#1d1814] hover:bg-[#efe7da]">Projects</a>
+      <a href="#experience" class="mobile-nav-link block px-3 py-2 rounded-xl text-sm font-medium text-[#1d1814] hover:bg-[#efe7da]">Experience</a>
+      <a href="#feedback" class="mobile-nav-link block px-3 py-2 rounded-xl text-sm font-medium text-accent hover:bg-[#efe7da]">Feedback</a>
+      <a href="#contact" class="mobile-nav-link block px-3 py-2 rounded-xl text-sm font-medium text-[#1d1814] hover:bg-[#efe7da]">Contact</a>
+    </div>
+  </header>
+
+  <!-- ==================== HERO SECTION (VINTAGE PARCHMENT & 3D AUTOMATON) ==================== -->
+  <section id="home" class="relative vintage-grid pt-12 pb-20 sm:pt-16 sm:pb-28 border-b border-[#e5dcce] overflow-hidden">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+
+        <!-- Left Column: Typography & Classroom Presentation Hero -->
+        <div class="lg:col-span-6 text-center lg:text-left order-2 lg:order-1 z-10">
+          <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#ffffff] border border-[#d8cca8] shadow-sm mb-6">
+            <span class="relative flex h-2.5 w-2.5">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-600"></span>
+            </span>
+            <span class="font-mono text-xs text-[#524436] tracking-wide font-medium">OPEN TO HARDWARE &amp; EMBEDDED ROLES</span>
+          </div>
+
+          <h1 class="font-serif text-4xl sm:text-5xl lg:text-[3.45rem] font-bold tracking-tight text-[#1d1814] leading-[1.1] mb-5">
+            Henil Patel <br class="hidden sm:inline" />
+            <span class="hero-name-gradient italic font-normal">Electronics Engineering</span>
+          </h1>
+
+          <p class="text-base sm:text-lg text-[#483d33] max-w-xl mx-auto lg:mx-0 leading-relaxed mb-8">
+            Detail-oriented electronics engineer specializing in <strong class="text-[#1d1814] font-semibold">circuit analysis</strong>, <strong class="text-[#1d1814] font-semibold">digital logic synthesis</strong>, and <strong class="text-[#1d1814] font-semibold">electromechanical system integration</strong>. Transforming theoretical blueprints into reliable physical hardware prototypes.
+          </p>
+
+          <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5">
+            <a
+              href="#projects"
+              class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-2xl text-sm font-semibold bg-[#1d1814] text-[#faf6f0] hover:bg-[#332b24] shadow-md transition-all hover:-translate-y-0.5 active:translate-y-0"
+            >
+              <span>Explore Hardware Builds</span>
+              <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+            <a
+              href="#feedback"
+              class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl text-sm font-semibold bg-white text-[#1d1814] border border-[#d6c7b1] hover:border-accent-soft hover:bg-[#fbf9f4] shadow-sm transition-all"
+            >
+              <span>Rate Presentation &amp; Feedback ★</span>
+            </a>
+          </div>
+
+          <div class="mt-8 pt-6 border-t border-[#e2d6c3] flex flex-wrap items-center justify-center lg:justify-start gap-4 text-xs text-[#786b5e]">
+            <span class="inline-flex items-center gap-1.5 font-medium">
+              <span class="w-2 h-2 rounded-full bg-accent"></span>
+              Move cursor to orient <strong class="text-[#1d1814]">AURA-01 Automaton</strong>
+            </span>
+            <span class="hidden sm:inline text-[#c4b69f]">•</span>
+            <span class="inline-flex items-center gap-1.5 font-medium">
+              <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+              Tap face for reactions
+            </span>
+          </div>
+        </div>
+
+        <!-- Right Column: Interactive 3D Porcelain & Brass Automaton Showcase -->
+        <div class="lg:col-span-6 flex flex-col items-center justify-center order-1 lg:order-2 relative">
+
+          <div
+            id="botSpeechPill"
+            class="mb-3 z-20 px-4 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-[#d5c7b0] shadow-md flex items-center gap-2 text-xs font-mono text-[#382f25] transition-all duration-300"
+          >
+            <span id="speechIndicatorDot" class="w-2 h-2 rounded-full bg-[#b47834] animate-pulse"></span>
+            <span id="botSpeechText">Tracking cursor...</span>
+          </div>
+
+          <div
+            id="robotBackdropHalo"
+            class="absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full pointer-events-none blur-3xl opacity-60 transition-colors duration-500"
+            style="background: radial-gradient(circle, rgba(var(--accent-rgb), 0.28) 0%, rgba(200, 160, 100, 0.08) 55%, transparent 75%);"
+          ></div>
+
+          <div class="floating-badge-1 hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/95 border border-[#d8cca8] text-[11px] font-mono text-[#524436] shadow-md absolute top-14 left-2 lg:left-0 z-20 pointer-events-none">
+            <span class="text-accent font-bold">◈</span> OPTICAL GAZE RIG
+          </div>
+
+          <div class="floating-badge-2 hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/95 border border-[#d8cca8] text-[11px] font-mono text-[#524436] shadow-md absolute bottom-16 left-2 lg:left-0 z-20 pointer-events-none">
+            <span class="text-rose-500">⚡</span> CIRCUIT ARCHITECTURE
+          </div>
+
+          <div class="floating-badge-3 hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/95 border border-[#d8cca8] text-[11px] font-mono text-[#524436] shadow-md absolute top-24 right-0 z-20 pointer-events-none">
+            <span class="text-emerald-600">●</span> CONCEPT TO PROTOTYPE
+          </div>
+
+          <div class="floating-badge-4 hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/95 border border-[#d8cca8] text-[11px] font-mono text-[#524436] shadow-md absolute bottom-16 right-2 lg:right-0 z-20 pointer-events-none">
+            <span class="text-accent">⚙</span> 3D PARALLAX RIG
+          </div>
+
+          <!-- Interactive 3D Robot Stage -->
+          <div
+            id="robotStage"
+            role="button"
+            tabindex="0"
+            aria-label="Interactive vintage porcelain and brass robot automaton. Move your cursor to move its optical sensors or click to make it blink."
+            class="robot-stage relative w-[290px] sm:w-[355px] md:w-[395px] aspect-square flex flex-col items-center justify-center cursor-pointer z-10 focus:outline-none"
+          >
+            <div class="robot-levitate w-full h-full flex items-center justify-center">
+              <div id="robotTilt" class="robot-tilt w-full h-full flex items-center justify-center">
+
+                <svg
+                  id="robotSvg"
+                  viewBox="0 0 420 430"
+                  class="w-full h-full overflow-visible drop-shadow-[0_22px_32px_rgba(70,45,20,0.18)]"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <defs>
+                    <radialGradient id="porcelainShell" cx="42%" cy="26%" r="70%" fx="35%" fy="20%">
+                      <stop offset="0%" stop-color="#ffffff" />
+                      <stop offset="42%" stop-color="#fdfaf3" />
+                      <stop offset="72%" stop-color="#f3ebd9" />
+                      <stop offset="88%" stop-color="#e2d4bd" />
+                      <stop offset="100%" stop-color="#c9b79b" />
+                    </radialGradient>
+
+                    <linearGradient id="foreheadSpecular" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95" />
+                      <stop offset="60%" stop-color="#ffffff" stop-opacity="0.3" />
+                      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+                    </linearGradient>
+
+                    <linearGradient id="chinRimLight" x1="0%" y1="100%" x2="0%" y2="0%">
+                      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.8" />
+                      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+                    </linearGradient>
+
+                    <linearGradient id="earPorcelain" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#fff8ea" />
+                      <stop offset="40%" stop-color="#e8cf9b" />
+                      <stop offset="80%" stop-color="#b47834" />
+                      <stop offset="100%" stop-color="#734714" />
+                    </linearGradient>
+
+                    <radialGradient id="eyeSocketBezel" cx="50%" cy="45%" r="55%">
+                      <stop offset="55%" stop-color="#d6c6ad" />
+                      <stop offset="82%" stop-color="#9d8667" />
+                      <stop offset="100%" stop-color="#ffffff" />
+                    </radialGradient>
+
+                    <radialGradient id="eyeGlowRimGrad" cx="50%" cy="50%" r="50%">
+                      <stop id="rimStop1" offset="62%" stop-color="#fff6e5" />
+                      <stop id="rimStop2" offset="82%" stop-color="#fcd38d" />
+                      <stop id="rimStop3" offset="93%" stop-color="#d97706" />
+                      <stop id="rimStop4" offset="100%" stop-color="#92400e" />
+                    </radialGradient>
+
+                    <radialGradient id="irisCoreGrad" cx="44%" cy="38%" r="58%">
+                      <stop id="irisStop1" offset="0%" stop-color="#f59e0b" />
+                      <stop id="irisStop2" offset="45%" stop-color="#b45309" />
+                      <stop id="irisStop3" offset="80%" stop-color="#78350f" />
+                      <stop id="irisStop4" offset="100%" stop-color="#2c1404" />
+                    </radialGradient>
+
+                    <radialGradient id="rosyCheekGrad" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" stop-color="#f87171" stop-opacity="0.45" />
+                      <stop offset="50%" stop-color="#fca5a5" stop-opacity="0.22" />
+                      <stop offset="100%" stop-color="#fca5a5" stop-opacity="0" />
+                    </radialGradient>
+
+                    <linearGradient id="greyAntennaGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#784910" />
+                      <stop offset="40%" stop-color="#e6b86a" />
+                      <stop offset="60%" stop-color="#fff1cc" />
+                      <stop offset="100%" stop-color="#8c581a" />
+                    </linearGradient>
+
+                    <linearGradient id="silverBrowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stop-color="#4a3b2c" />
+                      <stop offset="60%" stop-color="#2a1f16" />
+                      <stop offset="100%" stop-color="#18110b" />
+                    </linearGradient>
+
+                    <filter id="cyanEyeGlowFilter" x="-30%" y="-30%" width="160%" height="160%">
+                      <feGaussianBlur stdDeviation="4.5" result="blur" />
+                      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+
+                    <filter id="noseShadowFilter" x="-25%" y="-25%" width="150%" height="150%">
+                      <feDropShadow dx="0" dy="4" stdDeviation="3.5" flood-color="#7a6245" flood-opacity="0.24" />
+                    </filter>
+
+                    <clipPath id="leftSocketClip">
+                      <circle cx="151" cy="215" r="43" />
+                    </clipPath>
+                    <clipPath id="rightSocketClip">
+                      <circle cx="269" cy="215" r="43" />
+                    </clipPath>
+                  </defs>
+
+                  <g id="leftAntennaGroup">
+                    <ellipse cx="116" cy="108" rx="12" ry="7" transform="rotate(-32 116 108)" fill="#d4be94" />
+                    <ellipse cx="117" cy="109" rx="9" ry="5" transform="rotate(-32 117 109)" fill="#785022" />
+                    <line x1="115" y1="106" x2="96" y2="75" stroke="url(#greyAntennaGrad)" stroke-width="6.2" stroke-linecap="round" />
+                    <line x1="96" y1="75" x2="77" y2="44" stroke="url(#greyAntennaGrad)" stroke-width="3.6" stroke-linecap="round" />
+                    <g class="antenna-sphere">
+                      <circle id="leftAntennaTip" cx="76" cy="42" r="8" fill="#f59e0b" />
+                      <circle cx="74" cy="39.5" r="2.8" fill="#ffffff" />
+                    </g>
+                  </g>
+
+                  <g id="rightAntennaGroup">
+                    <ellipse cx="304" cy="108" rx="12" ry="7" transform="rotate(32 304 108)" fill="#d4be94" />
+                    <ellipse cx="303" cy="109" rx="9" ry="5" transform="rotate(32 303 109)" fill="#785022" />
+                    <line x1="305" y1="106" x2="324" y2="75" stroke="url(#greyAntennaGrad)" stroke-width="6.2" stroke-linecap="round" />
+                    <line x1="324" y1="75" x2="343" y2="44" stroke="url(#greyAntennaGrad)" stroke-width="3.6" stroke-linecap="round" />
+                    <g class="antenna-sphere">
+                      <circle id="rightAntennaTip" cx="344" cy="42" r="8" fill="#f59e0b" />
+                      <circle cx="342" cy="39.5" r="2.8" fill="#ffffff" />
+                    </g>
+                  </g>
+
+                  <g id="leftEarModule">
+                    <rect x="52" y="176" width="26" height="96" rx="13" fill="url(#earPorcelain)" stroke="#b89663" stroke-width="1.2" />
+                    <ellipse id="leftEarRimGlow" cx="53.5" cy="224" rx="3.8" ry="27" fill="#fbbf24" filter="url(#cyanEyeGlowFilter)" />
+                    <path d="M 67 183 C 62 205, 62 243, 67 265" stroke="#785022" stroke-width="1.5" fill="none" opacity="0.6" />
+                  </g>
+
+                  <g id="rightEarModule">
+                    <rect x="342" y="176" width="26" height="96" rx="13" fill="url(#earPorcelain)" stroke="#b89663" stroke-width="1.2" />
+                    <ellipse id="rightEarRimGlow" cx="366.5" cy="224" rx="3.8" ry="27" fill="#fbbf24" filter="url(#cyanEyeGlowFilter)" />
+                    <path d="M 353 183 C 358 205, 358 243, 353 265" stroke="#785022" stroke-width="1.5" fill="none" opacity="0.6" />
+                  </g>
+
+                  <path
+                    d="M 210 68
+                       C 296 68, 350 124, 348 214
+                       C 346 306, 294 388, 210 388
+                       C 126 388, 74 306, 72 214
+                       C 70 124, 124 68, 210 68 Z"
+                    fill="url(#porcelainShell)"
+                    stroke="#cdbea8"
+                    stroke-width="1.2"
+                  />
+
+                  <path d="M 140 86 C 136 112, 134 132, 134 146" stroke="#c0af97" stroke-width="1.4" fill="none" opacity="0.75" />
+                  <path d="M 280 86 C 284 112, 286 132, 286 146" stroke="#c0af97" stroke-width="1.4" fill="none" opacity="0.75" />
+                  <path d="M 82 232 L 106 238 M 84 248 L 112 246" stroke="#ad9c82" stroke-width="1.2" fill="none" opacity="0.65" />
+                  <path d="M 338 232 L 314 238 M 336 248 L 308 246" stroke="#ad9c82" stroke-width="1.2" fill="none" opacity="0.65" />
+
+                  <ellipse cx="210" cy="116" rx="82" ry="34" fill="url(#foreheadSpecular)" />
+                  <path
+                    d="M 102 152 C 92 180, 90 212, 94 242"
+                    stroke="#ffffff"
+                    stroke-width="6"
+                    stroke-linecap="round"
+                    fill="none"
+                    opacity="0.7"
+                  />
+                  <path
+                    d="M 148 364 C 175 381, 245 381, 272 364"
+                    stroke="url(#chinRimLight)"
+                    stroke-width="5"
+                    stroke-linecap="round"
+                    fill="none"
+                  />
+
+                  <ellipse cx="118" cy="272" rx="34" ry="22" fill="url(#rosyCheekGrad)" />
+                  <ellipse cx="302" cy="272" rx="34" ry="22" fill="url(#rosyCheekGrad)" />
+
+                  <g id="eyebrowsGroup" style="transition: transform 0.25s ease;">
+                    <path
+                      d="M 116 154 C 130 144, 152 142, 168 147"
+                      stroke="url(#silverBrowGrad)"
+                      stroke-width="7.5"
+                      stroke-linecap="round"
+                      fill="none"
+                    />
+                    <path
+                      d="M 120 152 C 132 144, 150 143, 164 146"
+                      stroke="#d4c3ad"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      fill="none"
+                      opacity="0.85"
+                    />
+
+                    <path
+                      d="M 304 154 C 290 144, 268 142, 252 147"
+                      stroke="url(#silverBrowGrad)"
+                      stroke-width="7.5"
+                      stroke-linecap="round"
+                      fill="none"
+                    />
+                    <path
+                      d="M 300 152 C 288 144, 270 143, 256 146"
+                      stroke="#d4c3ad"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      fill="none"
+                      opacity="0.85"
+                    />
+                  </g>
+
+                  <g id="leftEyeAssembly">
+                    <circle cx="151" cy="215" r="52" fill="url(#eyeSocketBezel)" stroke="#b89c74" stroke-width="1.5" />
+                    <circle cx="151" cy="215" r="46" fill="url(#eyeGlowRimGrad)" filter="url(#cyanEyeGlowFilter)" />
+                    <circle cx="151" cy="215" r="39" fill="#fffcf5" />
+
+                    <g clip-path="url(#leftSocketClip)">
+                      <g id="leftEyeTracker">
+                        <circle cx="151" cy="215" r="28.5" fill="url(#irisCoreGrad)" />
+                        <circle id="leftIrisRing" cx="151" cy="215" r="23.5" fill="none" stroke="#fcd34d" stroke-width="1.6" opacity="0.65" />
+                        <circle cx="151" cy="215" r="15" fill="#1b1207" />
+                        <ellipse cx="141" cy="204" rx="7" ry="5" transform="rotate(-28 141 204)" fill="#ffffff" opacity="0.95" />
+                        <circle cx="161" cy="224" r="2.8" fill="#ffffff" opacity="0.8" />
+                        <path id="leftIrisArc" d="M 137 228 Q 151 237 165 228" stroke="#fcd34d" stroke-width="2.4" stroke-linecap="round" fill="none" opacity="0.75" />
+                      </g>
+
+                      <rect
+                        id="leftEyelid"
+                        x="100"
+                        y="164"
+                        width="102"
+                        height="102"
+                        fill="#ebdcc8"
+                        style="transform: scaleY(0); transform-origin: 151px 168px; transition: transform 0.1s ease-in-out;"
+                      />
+                    </g>
+                  </g>
+
+                  <g id="rightEyeAssembly">
+                    <circle cx="269" cy="215" r="52" fill="url(#eyeSocketBezel)" stroke="#b89c74" stroke-width="1.5" />
+                    <circle cx="269" cy="215" r="46" fill="url(#eyeGlowRimGrad)" filter="url(#cyanEyeGlowFilter)" />
+                    <circle cx="269" cy="215" r="39" fill="#fffcf5" />
+
+                    <g clip-path="url(#rightSocketClip)">
+                      <g id="rightEyeTracker">
+                        <circle cx="269" cy="215" r="28.5" fill="url(#irisCoreGrad)" />
+                        <circle id="rightIrisRing" cx="269" cy="215" r="23.5" fill="none" stroke="#fcd34d" stroke-width="1.6" opacity="0.65" />
+                        <circle cx="269" cy="215" r="15" fill="#1b1207" />
+                        <ellipse cx="259" cy="204" rx="7" ry="5" transform="rotate(-28 259 204)" fill="#ffffff" opacity="0.95" />
+                        <circle cx="279" cy="224" r="2.8" fill="#ffffff" opacity="0.8" />
+                        <path id="rightIrisArc" d="M 255 228 Q 269 237 283 228" stroke="#fcd34d" stroke-width="2.4" stroke-linecap="round" fill="none" opacity="0.75" />
+                      </g>
+
+                      <rect
+                        id="rightEyelid"
+                        x="218"
+                        y="164"
+                        width="102"
+                        height="102"
+                        fill="#ebdcc8"
+                        style="transform: scaleY(0); transform-origin: 269px 168px; transition: transform 0.1s ease-in-out;"
+                      />
+                    </g>
+                  </g>
+
+                  <g filter="url(#noseShadowFilter)">
+                    <path
+                      d="M 210 218
+                         C 217 218, 223 246, 226 260
+                         C 228 269, 221 275, 210 275
+                         C 199 275, 192 269, 194 260
+                         C 197 246, 203 218, 210 218 Z"
+                      fill="url(#porcelainShell)"
+                    />
+                    <path
+                      d="M 208 225 C 207 240, 206 254, 208 264"
+                      stroke="#ffffff"
+                      stroke-width="3"
+                      stroke-linecap="round"
+                      fill="none"
+                      opacity="0.9"
+                    />
+                  </g>
+
+                  <g id="smileGroup">
+                    <path
+                      d="M 152 303 Q 210 331 268 303"
+                      stroke="#c8b79f"
+                      stroke-width="7"
+                      stroke-linecap="round"
+                      fill="none"
+                      opacity="0.5"
+                    />
+                    <path
+                      id="robotSmile"
+                      d="M 153 301 Q 210 328 267 301"
+                      stroke="#2d2116"
+                      stroke-width="5.2"
+                      stroke-linecap="round"
+                      fill="none"
+                    />
+                    <path d="M 149 297 Q 152 302 150 306" stroke="#8a7356" stroke-width="1.6" stroke-linecap="round" fill="none" />
+                    <path d="M 271 297 Q 268 302 270 306" stroke="#8a7356" stroke-width="1.6" stroke-linecap="round" fill="none" />
+                    <path
+                      d="M 184 323 Q 210 331 236 323"
+                      stroke="#ffffff"
+                      stroke-width="3"
+                      stroke-linecap="round"
+                      fill="none"
+                      opacity="0.85"
+                    />
+                  </g>
+                </svg>
+
+              </div>
+            </div>
+
+            <div class="robot-floor-glow w-48 sm:w-60 h-6 rounded-full -mt-1"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ABOUT & HIGHLIGHTS (VINTAGE BENTO GRID) ==================== -->
+  <section id="about" class="reveal-section py-20 sm:py-28 border-b border-[#e5dcce]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl mb-12">
+        <p class="font-mono text-xs uppercase tracking-widest text-accent font-semibold mb-2.5">01 // PROFILE &amp; PHILOSOPHY</p>
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-[#1d1814] tracking-tight">
+          Translating complex circuit equations into dependable, physical engineering systems.
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-7 vintage-card rounded-3xl p-7 sm:p-9 flex flex-col justify-between">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-soft border border-accent-soft text-accent font-mono text-xs font-semibold mb-5">
+              <span>HARDWARE ENGINEER PROFILE</span>
+            </div>
+            <h3 class="font-serif text-2xl font-bold text-[#1d1814] mb-4">
+              Grounding theoretical circuit analysis in hands-on mechanical and embedded execution.
+            </h3>
+            <p class="text-[#483d33] leading-relaxed mb-4">
+              I am <strong class="text-[#1d1814] font-semibold">Henil Patel</strong>, an Electronics Engineering student dedicated to the craft of physical computing, precision analog/digital circuit design, and electromechanical prototyping.
+            </p>
+            <p class="text-[#5c4e40] leading-relaxed">
+              Serving as the <span class="text-[#1d1814] font-semibold">Head / Leading Member</span> on the Automatic Rodless Ceiling Fan Cleaning Robot project, I manage structural CAD iterations, power delivery circuits, and laboratory debugging to deliver reliable electromechanical prototypes.
+            </p>
+          </div>
+
+          <div class="mt-8 pt-6 border-t border-[#ede3d4] flex flex-wrap gap-2.5 text-xs font-mono text-[#483d33]">
+            <span class="px-3 py-1.5 rounded-xl bg-[#f7f2ea] border border-[#ded3c0]">⚡ Circuit Design &amp; Analysis</span>
+            <span class="px-3 py-1.5 rounded-xl bg-[#f7f2ea] border border-[#ded3c0]">🤖 Capstone Robotics Lead</span>
+            <span class="px-3 py-1.5 rounded-xl bg-[#f7f2ea] border border-[#ded3c0]">🔧 Hardware Debugging</span>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
+          <div class="vintage-card rounded-3xl p-6 flex items-center justify-between">
+            <div>
+              <p class="font-mono text-xs text-[#786b5e] uppercase tracking-wider mb-1 font-semibold">Leadership Role</p>
+              <div class="font-serif text-2xl font-bold text-[#1d1814]">Head Member <span class="text-accent">•</span> Fan Bot</div>
+              <p class="text-xs text-[#5c4e40] mt-1">Leading electromechanical system architecture &amp; CAD</p>
+            </div>
+            <div class="w-12 h-12 rounded-2xl bg-accent-soft border border-accent-soft text-accent flex items-center justify-center shrink-0">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+              </svg>
+            </div>
+          </div>
+
+          <div class="vintage-card rounded-3xl p-6 flex items-center justify-between">
+            <div>
+              <p class="font-mono text-xs text-[#786b5e] uppercase tracking-wider mb-1 font-semibold">Core Discipline</p>
+              <div class="font-serif text-2xl font-bold text-[#1d1814]">Electronics <span class="text-accent">&amp;</span> Logic</div>
+              <p class="text-xs text-[#5c4e40] mt-1">Nodal/mesh analysis, K-maps, state logic &amp; embedded control</p>
+            </div>
+            <div class="w-12 h-12 rounded-2xl bg-accent-soft border border-accent-soft text-accent flex items-center justify-center shrink-0">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+          </div>
+
+          <div class="vintage-card rounded-3xl p-6 sm:col-span-2 lg:col-span-1 flex items-center justify-between">
+            <div>
+              <p class="font-mono text-xs text-[#786b5e] uppercase tracking-wider mb-1 font-semibold">Engineering Tooling</p>
+              <div class="font-serif text-xl font-bold text-[#1d1814]">C, C++, Python &amp; CAD</div>
+              <p class="text-xs text-[#5c4e40] mt-1">Hardware control, mathematical modeling &amp; lab testing</p>
+            </div>
+            <div class="w-12 h-12 rounded-2xl bg-accent-soft border border-accent-soft text-accent flex items-center justify-center shrink-0">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-12 vintage-card rounded-3xl p-7 sm:p-8">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div>
+              <h3 class="font-serif text-xl font-bold text-[#1d1814]">Core Engineering Domains</h3>
+              <p class="text-xs text-[#786b5e] mt-0.5">Select a tab below to inspect technical methods &amp; lab capabilities</p>
+            </div>
+            <div class="flex flex-wrap gap-2" id="disciplineTabs">
+              <button type="button" data-discipline="circuits" class="discipline-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-[#1d1814] text-white transition-all shadow-sm">
+                01. Circuit Design &amp; Analysis
+              </button>
+              <button type="button" data-discipline="logic" class="discipline-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-[#f4eee2] text-[#483d33] border border-[#d9ccba] hover:border-accent-soft transition-all">
+                02. Digital Logic &amp; Embedded
+              </button>
+              <button type="button" data-discipline="electro" class="discipline-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-[#f4eee2] text-[#483d33] border border-[#d9ccba] hover:border-accent-soft transition-all">
+                03. Electromechanical Prototyping
+              </button>
+            </div>
+          </div>
+
+          <div id="disciplineContent" class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-2">
+            <div class="p-4 rounded-2xl bg-[#faf6f0] border border-[#e5dcce]">
+              <div class="font-mono text-xs text-accent font-semibold mb-1.5">NETWORK ANALYSIS</div>
+              <div class="font-serif font-bold text-[#1d1814] text-base mb-1">Nodal, Mesh &amp; Star-Delta</div>
+              <p class="text-xs text-[#5c4e40] leading-relaxed">Solving multi-node resistive and reactive networks, impedance matching, and power distribution calculations.</p>
+            </div>
+            <div class="p-4 rounded-2xl bg-[#faf6f0] border border-[#e5dcce]">
+              <div class="font-mono text-xs text-accent font-semibold mb-1.5">POWER &amp; SIGNALS</div>
+              <div class="font-serif font-bold text-[#1d1814] text-base mb-1">Voltage Regulation &amp; Conditioning</div>
+              <p class="text-xs text-[#5c4e40] leading-relaxed">Designing stable power rails, motor driver interfaces, and noise-filtered sensor conditioning stages.</p>
+            </div>
+            <div class="p-4 rounded-2xl bg-[#faf6f0] border border-[#e5dcce]">
+              <div class="font-mono text-xs text-accent font-semibold mb-1.5">VERIFICATION</div>
+              <div class="font-serif font-bold text-[#1d1814] text-base mb-1">Breadboard &amp; Lab Debugging</div>
+              <p class="text-xs text-[#5c4e40] leading-relaxed">Systematic continuity testing, multimeter/oscilloscope fault isolation, and schematic validation.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TECHNICAL SKILLS MATRIX ==================== -->
+  <section id="skills" class="reveal-section py-20 sm:py-28 border-b border-[#e5dcce]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl mb-12">
+        <p class="font-mono text-xs uppercase tracking-widest text-accent font-semibold mb-2.5">02 // TECHNICAL REPERTOIRE</p>
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-[#1d1814] tracking-tight">
+          Rigorous hardware theory, digital logic, and prototyping toolset.
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="vintage-card rounded-3xl p-7">
+          <div class="flex items-center justify-between mb-5">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-accent-soft border border-accent-soft text-accent flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-serif font-bold text-lg text-[#1d1814]">Circuit Design &amp; Analysis</h3>
+                <p class="text-xs text-[#786b5e]">Analog/DC network modeling &amp; power distribution</p>
+              </div>
+            </div>
+            <span class="font-mono text-xs text-[#9d8e7e] font-bold">01</span>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="skill-chip px-3.5 py-2 rounded-xl text-xs font-medium bg-[#faf6f0] border border-[#e5dcce] text-[#3d3328] hover:border-accent-soft hover:text-accent transition-all cursor-default">Nodal &amp; Mesh Analysis</span>
+            <span class="skill-chip px-3.5 py-2 rounded-xl text-xs font-medium bg-[#faf6f0] border border-[#e5dcce] text-[#3d3328] hover:border-accent-soft hover:text-accent transition-all cursor-default">Star-Delta Transformations</span>
+            <span class="skill-chip px-3.5 py-2 rounded-xl text-xs font-medium bg-[#faf6f0] border border-[#e5dcce] text-[#3d3328] hover:border-accent-soft hover:text-accent transition-all cursor-default">Power &amp; Motor Driver Circuits</span>
+            <span class="skill-chip px-3.5 py-2 rounded-xl text-xs font-medium bg-[#faf6f0] border border-[#e5dcce] text-[#3d3328] hover:border-accent-soft hover:text-accent transition-all cursor-default">Signal Conditioning</span>
+            <span class="skill-chip px-3.5 py-2 rounded-xl text-xs font-medium bg-[#faf6f0] border border-[#e5dcce] text-[#3d3328] hover:border-accent-soft hover:text-accent transition-all cursor-default">Breadboard Prototyping</span>
+          </div>
+        </div>
+
+        <div class="vintage-card rounded-3xl p-7">
+          <div class="flex items-center justify-between mb-5">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-accent-soft border border-accent-soft text-accent flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-serif font-bold text-lg text-[#1d1814]">Digital Logic &amp; Architecture</h3>
+                <p class="text-xs text-[#786b5e]">Boolean minimization &amp; hardware logic synthesis</p>
+              </div>
+            </div>
+            <span class="font-mono text-xs text-[#9d8e7e] font-bold">02</span>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="skill-chip px-3.5 py-2 rounded-xl text-xs font-medium bg-[#faf6f0] border border-[#e5dcce] text-[#3d3328] hover:border-accent-soft hover:text-accent transition-all cursor-default">Karnaugh Maps (K-Maps)</span>
+            <span class="skill-chip px-3.5 py-2 rounded-xl text-xs font-medium bg-[#faf6f0] border border-[#e5dcce] text-[#3d3328] hover:border-accent-soft hover:text-accent transition-all cursor-default">Combinational &amp; Sequential Logic</span>
+            <span class="skill-chip px-3.5 py-2 rounded-xl text-xs font-medium bg-[#faf6f0] border border-[#e5dcce] text-[#3d3328] hover:border-accent-soft hover:text-accent transition-all cursor-default">Binary ↔ Gray Code Converters</span>
+            <span class="skill-chip px-3.5 py-2 rounded-xl text-xs font-medium bg-[#faf6f0] border border-[#e5dcce] text-[#3d3328] hover:border-accent-soft hover:text-accent transition-all cursor-default">Half &amp; Full Subtractors</span>
+            <span class="skill-chip px-3.5 py-2 rounded-xl text-xs font-medium bg-[#faf6f0] border border-[#e5dcce] text-[#3d3328] hover:border-accent-soft hover:text-accent transition-all cursor-default">Logic Gate Optimization</span>
+          </div>
+        </div>
+
+        <div class="vintage-card rounded-3xl p-7">
+          <div class="flex items-center justify-between mb-5">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-accent-soft border border-accent-soft text-accent flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-serif font-bold text-lg text-[#1d1814]">Programming &amp; Embedded Logic</h3>
+                <p class="text-xs text-[#786b5e]">Microcontroller firmware, control loops &amp; scripting</p>
+              </div>
+            </div>
+            <span class="font-mono text-xs text-[#9d8e7e] font-bold">03</span>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="skill-chip px-3.5 py-2 rounded-xl text-xs font-medium bg-[#faf6f0] border border-[#e5dcce] text-[#3d3328] hover:border-accent-soft hover:text-accent transition-all cursor-default">C Programming</span>
+            <span class="skill-chip px-3.5 py-2 rounded-xl text-xs font-medium bg-[#faf6f0] border border-[#e5dcce] text-[#3d3328] hover:border-accent-soft hover:text-accent transition-all cursor-default">C++ (Embedded &amp; OOP)</span>
+            <span class="skill-chip px-3.5 py-2 rounded-xl text-xs font-medium bg-[#faf6f0] border border-[#e5dcce] text-[#3d3328] hover:border-accent-soft hover:text-accent transition-all cursor-default">Python</span>
+            <span class="skill-chip px-3.5 py-2 rounded-xl text-xs font-medium bg-[#faf6f0] border border-[#e5dcce] text-[#3d3328] hover:border-accent-soft hover:text-accent transition-all cursor-default">Microcontroller I/O &amp; PWM</span>
+            <span class="skill-chip px-3.5 py-2 rounded-xl text-xs font-medium bg-[#faf6f0] border border-[#e5dcce] text-[#3d3328] hover:border-accent-soft hover:text-accent transition-all cursor-default">Algorithm &amp; State Logic</span>
+          </div>
+        </div>
+
+        <div class="vintage-card rounded-3xl p-7">
+          <div class="flex items-center justify-between mb-5">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-accent-soft border border-accent-soft text-accent flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-serif font-bold text-lg text-[#1d1814]">Electromechanical &amp; CAD</h3>
+                <p class="text-xs text-[#786b5e]">Chassis modeling, physical mechanism assembly &amp; lab testing</p>
+              </div>
+            </div>
+            <span class="font-mono text-xs text-[#9d8e7e] font-bold">04</span>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="skill-chip px-3.5 py-2 rounded-xl text-xs font-medium bg-[#faf6f0] border border-[#e5dcce] text-[#3d3328] hover:border-accent-soft hover:text-accent transition-all cursor-default">CAD Modeling &amp; Assemblies</span>
+            <span class="skill-chip px-3.5 py-2 rounded-xl text-xs font-medium bg-[#faf6f0] border border-[#e5dcce] text-[#3d3328] hover:border-accent-soft hover:text-accent transition-all cursor-default">Electromechanical Prototyping</span>
+            <span class="skill-chip px-3.5 py-2 rounded-xl text-xs font-medium bg-[#faf6f0] border border-[#e5dcce] text-[#3d3328] hover:border-accent-soft hover:text-accent transition-all cursor-default">Hardware Bench Debugging</span>
+            <span class="skill-chip px-3.5 py-2 rounded-xl text-xs font-medium bg-[#faf6f0] border border-[#e5dcce] text-[#3d3328] hover:border-accent-soft hover:text-accent transition-all cursor-default">Actuator &amp; Sensor Feedback</span>
+            <span class="skill-chip px-3.5 py-2 rounded-xl text-xs font-medium bg-[#faf6f0] border border-[#e5dcce] text-[#3d3328] hover:border-accent-soft hover:text-accent transition-all cursor-default">System Integration</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FEATURED PROJECTS & 3D HARDWARE SHOWCASE ==================== -->
+  <section id="projects" class="reveal-section py-20 sm:py-28 border-b border-[#e5dcce]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- Section Title & Category Filters -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+        <div>
+          <p class="font-mono text-xs uppercase tracking-widest text-accent font-semibold mb-2.5">03 // ENGINEERING PORTFOLIO &amp; 3D SHOWCASE</p>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-[#1d1814] tracking-tight">
+            Flagship robotics build &amp; hardware prototypes.
+          </h2>
+        </div>
+
+        <div id="projectFilters" class="flex flex-wrap gap-2">
+          <button type="button" data-filter="all" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-[#1d1814] text-white transition-all shadow-sm">
+            All Builds
+          </button>
+          <button type="button" data-filter="robotics" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white text-[#483d33] border border-[#d6c7b1] hover:border-accent-soft transition-all">
+            Robotics Lead
+          </button>
+          <button type="button" data-filter="logic" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white text-[#483d33] border border-[#d6c7b1] hover:border-accent-soft transition-all">
+            Digital Logic
+          </button>
+          <button type="button" data-filter="circuits" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white text-[#483d33] border border-[#d6c7b1] hover:border-accent-soft transition-all">
+            Circuit Analysis
+          </button>
+        </div>
+      </div>
+
+      <!-- ==================== GRAND FLAGSHIP 3D CAD SHOWCASE CONSOLE ==================== -->
+      <div class="vintage-card rounded-3xl p-6 sm:p-8 lg:p-10 mb-14 border-2 border-[#d5c7b0] relative overflow-hidden shadow-lg">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 mb-8 border-b border-[#e8ded0]">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-soft border border-accent-soft text-accent font-mono text-xs font-semibold mb-2">
+              <span>FLAGSHIP CAPSTONE BUILD // TEAM LEAD</span>
+            </div>
+            <h3 class="font-serif text-2xl sm:text-3xl font-bold text-[#1d1814]">
+              Automatic Rodless Ceiling Fan Cleaning Robot
+            </h3>
+            <p class="text-xs sm:text-sm text-[#786b5e] mt-1">
+              Electromechanical CAD Architecture • Dual Counter-Rotating Rollers • Autonomous Traversal
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2 shrink-0">
+            <div class="inline-flex p-1 rounded-2xl bg-[#f2ebd9] border border-[#d6c7b1] text-xs font-mono">
+              <button
+                id="togglePhoto3DBtn"
+                type="button"
+                class="px-3.5 py-1.5 rounded-xl font-semibold bg-[#ffffff] text-[#1d1814] shadow-sm transition-all"
+              >
+                ◈ 3D Photo &amp; Hotspots
+              </button>
+              <button
+                id="toggleThree3DBtn"
+                type="button"
+                class="px-3.5 py-1.5 rounded-xl font-semibold text-[#6e6052] hover:text-[#1d1814] transition-all"
+              >
+                ⟳ 360° Live 3D Model
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-7">
+            <div class="relative rounded-2xl bg-gradient-to-b from-[#f8f4ec] via-[#ffffff] to-[#f4eee2] border border-[#dfd3c0] p-4 sm:p-6 shadow-inner flex flex-col items-center justify-center min-h-[380px] sm:min-h-[440px] overflow-hidden">
+
+              <div class="absolute inset-0 pointer-events-none opacity-40 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+
+              <div class="absolute top-4 left-4 z-20 flex items-center gap-2">
+                <span class="px-2.5 py-1 rounded-lg bg-white/90 border border-[#d9cdba] text-[10px] font-mono text-[#5c4e40] shadow-sm font-semibold">
+                  CAD // HP.LAB-01
+                </span>
+                <span id="active3DModeLabel" class="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 border border-emerald-300 text-[10px] font-mono font-semibold">
+                  3D PARALLAX ACTIVE
+                </span>
+              </div>
+
+              <!-- VIEW A: 3D Photo Perspective Rig -->
+              <div id="photo3DStage" class="cad-viewport-stage relative w-full h-full flex flex-col items-center justify-center py-6 cursor-grab active:cursor-grabbing">
+                <div
+                  id="photo3DCard"
+                  class="cad-model-card relative w-full max-w-[420px] rounded-2xl p-4 transition-transform duration-75"
+                >
+                  <div class="relative rounded-2xl overflow-hidden bg-white/60 p-2 border border-[#d6c7b1]/80 shadow-[0_20px_35px_-12px_rgba(70,45,20,0.25)]">
+                    <img
+                      id="prototypePhotoImg"
+                      src="assets/fan-cleaning-robot.png"
+                      alt="Automatic Rodless Ceiling Fan Cleaning Robot 3D CAD Model &amp; Prototype"
+                      class="w-full h-auto object-contain max-h-[320px] mx-auto rounded-xl select-none"
+                      draggable="false"
+                    />
+
+                    <div id="photoGlareOverlay" class="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-200"></div>
+                  </div>
+
+                  <!-- 4 Interactive 3D Hotspot Pins -->
+                  <div
+                    class="cad-hotspot-pin absolute top-[48%] left-[55%] -translate-x-1/2 -translate-y-1/2 z-30 cursor-pointer group"
+                    data-hotspot="1"
+                  >
+                    <span class="relative flex h-7 w-7 items-center justify-center">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#b47834] opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-7 w-7 bg-[#1d1814] text-white border-2 border-[#b47834] font-mono text-xs font-bold items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-[#b47834] transition-all">
+                        1
+                      </span>
+                    </span>
+                    <div class="absolute -top-8 left-1/2 -translate-x-1/2 hidden group-hover:block whitespace-nowrap px-2.5 py-1 rounded-lg bg-[#1d1814] text-white text-[10px] font-mono shadow-xl pointer-events-none z-40">
+                      Dual Counter-Rotating Rollers
+                    </div>
+                  </div>
+
+                  <div
+                    class="cad-hotspot-pin absolute top-[55%] left-[26%] -translate-x-1/2 -translate-y-1/2 z-30 cursor-pointer group"
+                    data-hotspot="2"
+                  >
+                    <span class="relative flex h-7 w-7 items-center justify-center">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#b47834] opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-7 w-7 bg-[#1d1814] text-white border-2 border-[#b47834] font-mono text-xs font-bold items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-[#b47834] transition-all">
+                        2
+                      </span>
+                    </span>
+                    <div class="absolute -top-8 left-1/2 -translate-x-1/2 hidden group-hover:block whitespace-nowrap px-2.5 py-1 rounded-lg bg-[#1d1814] text-white text-[10px] font-mono shadow-xl pointer-events-none z-40">
+                      Blade Guide Wheels &amp; Clamp
+                    </div>
+                  </div>
+
+                  <div
+                    class="cad-hotspot-pin absolute top-[24%] left-[54%] -translate-x-1/2 -translate-y-1/2 z-30 cursor-pointer group"
+                    data-hotspot="3"
+                  >
+                    <span class="relative flex h-7 w-7 items-center justify-center">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#b47834] opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-7 w-7 bg-[#1d1814] text-white border-2 border-[#b47834] font-mono text-xs font-bold items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-[#b47834] transition-all">
+                        3
+                      </span>
+                    </span>
+                    <div class="absolute -top-8 left-1/2 -translate-x-1/2 hidden group-hover:block whitespace-nowrap px-2.5 py-1 rounded-lg bg-[#1d1814] text-white text-[10px] font-mono shadow-xl pointer-events-none z-40">
+                      Control Unit &amp; Power Module
+                    </div>
+                  </div>
+
+                  <div
+                    class="cad-hotspot-pin absolute top-[76%] left-[18%] -translate-x-1/2 -translate-y-1/2 z-30 cursor-pointer group"
+                    data-hotspot="4"
+                  >
+                    <span class="relative flex h-7 w-7 items-center justify-center">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#b47834] opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-7 w-7 bg-[#1d1814] text-white border-2 border-[#b47834] font-mono text-xs font-bold items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-[#b47834] transition-all">
+                        4
+                      </span>
+                    </span>
+                    <div class="absolute -top-8 left-1/2 -translate-x-1/2 hidden group-hover:block whitespace-nowrap px-2.5 py-1 rounded-lg bg-[#1d1814] text-white text-[10px] font-mono shadow-xl pointer-events-none z-40">
+                      Autonomous Blade Traversal
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- VIEW B: Three.js Live 360° Simulation -->
+              <div id="three3DStage" class="hidden relative w-full h-[360px] sm:h-[420px] flex items-center justify-center cursor-grab active:cursor-grabbing">
+                <div id="threeCanvasContainer" class="w-full h-full"></div>
+                <div class="absolute bottom-3 left-4 z-20 px-3 py-1.5 rounded-xl bg-white/95 border border-[#d9cdba] text-[11px] font-mono text-[#5c4e40] shadow-sm pointer-events-none">
+                  Drag to Orbit 360° • Scroll to Zoom
+                </div>
+                <button
+                  id="toggleWireframeBtn"
+                  type="button"
+                  class="absolute top-4 right-4 z-20 px-3 py-1.5 rounded-xl bg-white/95 border border-[#d9cdba] text-[11px] font-mono text-[#5c4e40] hover:text-[#1d1814] shadow-sm transition-all"
+                >
+                  Wireframe: OFF
+                </button>
+              </div>
+
+              <!-- Bottom Viewport Controls -->
+              <div class="w-full pt-3 flex flex-wrap items-center justify-between gap-2 border-t border-[#ded3be] text-xs font-mono text-[#786b5e] z-10">
+                <span class="flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-[#b47834]"></span>
+                  Move cursor over image to tilt in 3D space
+                </span>
+                <div class="flex items-center gap-2">
+                  <button
+                    id="autoTiltToggleBtn"
+                    type="button"
+                    class="px-2.5 py-1 rounded-lg bg-white border border-[#d9ccb9] hover:bg-[#faf6f0] text-[11px] text-[#483d33] transition-colors"
+                  >
+                    Auto-Tilt: ON
+                  </button>
+                  <button
+                    id="resetAngleBtn"
+                    type="button"
+                    class="px-2.5 py-1 rounded-lg bg-white border border-[#d9ccb9] hover:bg-[#faf6f0] text-[11px] text-[#483d33] transition-colors"
+                  >
+                    Reset Angle
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Right Column: Engineering Leadership & Live Hotspot Details -->
+          <div class="lg:col-span-5 flex flex-col justify-between space-y-6">
+            <div>
+              <div class="p-4 rounded-2xl bg-[#faf6f0] border border-[#e2d5c1] mb-5">
+                <div class="flex items-center gap-2.5 mb-1.5">
+                  <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+                  <span class="font-mono text-xs font-bold text-[#1d1814] uppercase">Project Leadership Role</span>
+                </div>
+                <div class="font-serif text-lg font-bold text-[#1d1814]">
+                  Head / Leading Member — Electromechanical System Design
+                </div>
+                <p class="text-xs text-[#5c4e40] leading-relaxed mt-1">
+                  Spearheaded the physical chassis design, multi-body CAD assembly iterations, motor-driver circuitry, and hands-on laboratory verification of the robot.
+                </p>
+              </div>
+
+              <!-- Interactive Hotspot Detail Box -->
+              <div id="hotspotDetailBox" class="p-5 rounded-2xl bg-white border-2 border-accent transition-all duration-300 shadow-md">
+                <div class="flex items-center justify-between mb-2">
+                  <span id="hotspotNumberTag" class="px-2.5 py-0.5 rounded-full bg-accent-soft text-accent font-mono text-xs font-bold">
+                    HOTSPOT 1 OF 4
+                  </span>
+                  <span class="font-mono text-[10px] text-[#786b5e] uppercase">Click pin to inspect</span>
+                </div>
+                <h4 id="hotspotTitle" class="font-serif text-lg font-bold text-[#1d1814] mb-1.5">
+                  Dual Counter-Rotating Microfiber Rollers
+                </h4>
+                <p id="hotspotDescription" class="text-xs text-[#5c4e40] leading-relaxed">
+                  High-friction cylindrical rollers sandwich the ceiling fan blade from top and bottom. Rotating in counter directions, they capture stubborn dust without exerting unbalancing torque on the fan's suspension downrod.
+                </p>
+              </div>
+
+              <!-- Quick Engineering Specifications -->
+              <div class="mt-5 grid grid-cols-2 gap-3 text-xs font-mono">
+                <div class="p-3 rounded-xl bg-[#faf6f0] border border-[#e5dcce]">
+                  <span class="text-[#8c7e6e] block text-[10px]">TRAVERSAL TYPE</span>
+                  <strong class="text-[#1d1814] font-semibold">Rodless Autonomous</strong>
+                </div>
+                <div class="p-3 rounded-xl bg-[#faf6f0] border border-[#e5dcce]">
+                  <span class="text-[#8c7e6e] block text-[10px]">ROLLER CONFIG</span>
+                  <strong class="text-[#1d1814] font-semibold">Dual Sandwich Pairs</strong>
+                </div>
+                <div class="p-3 rounded-xl bg-[#faf6f0] border border-[#e5dcce]">
+                  <span class="text-[#8c7e6e] block text-[10px]">MOTOR DRIVER</span>
+                  <strong class="text-[#1d1814] font-semibold">Dual H-Bridge PWM</strong>
+                </div>
+                <div class="p-3 rounded-xl bg-[#faf6f0] border border-[#e5dcce]">
+                  <span class="text-[#8c7e6e] block text-[10px]">POWER SOURCE</span>
+                  <strong class="text-[#1d1814] font-semibold">Li-Ion Rechargeable</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- Inspect Full Blueprint CTA Button -->
+            <button
+              id="openFlagshipModalBtn"
+              type="button"
+              class="w-full inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-2xl text-sm font-semibold bg-[#1d1814] text-[#faf6f0] hover:bg-[#332b24] shadow-md transition-all hover:-translate-y-0.5 active:translate-y-0"
+            >
+              <span>Inspect Full Capstone Architecture &amp; Schematics</span>
+              <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Projects Grid for Other Builds -->
+      <div id="projectsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-7">
+        <!-- Rendered dynamically by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== LEADERSHIP & EDUCATION TIMELINE ==================== -->
+  <section id="experience" class="reveal-section py-20 sm:py-28 border-b border-[#e5dcce]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-14">
+        <p class="font-mono text-xs uppercase tracking-widest text-accent font-semibold mb-2.5">04 // LEADERSHIP &amp; EDUCATION</p>
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-[#1d1814] tracking-tight">
+          Project leadership milestones &amp; academic pedigree.
+        </h2>
+      </div>
+
+      <div class="relative border-l-2 border-[#d9ccb9] ml-3 sm:ml-4 space-y-10">
+        <!-- Item 1 -->
+        <div class="relative pl-8 sm:pl-10">
+          <span class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-accent ring-4 ring-[#faf6f0] shadow-sm"></span>
+          <div class="vintage-card rounded-3xl p-6 sm:p-7">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+              <h3 class="font-serif text-xl font-bold text-[#1d1814]">Head / Leading Member — Automatic Fan Cleaning Robot</h3>
+              <span class="font-mono text-xs px-3 py-1 rounded-full bg-accent-soft text-accent border border-accent-soft w-fit font-bold">
+                CAPSTONE LEAD
+              </span>
+            </div>
+            <p class="text-sm font-semibold text-[#483d33] mb-3">Hardware &amp; Electromechanical Engineering Team</p>
+            <p class="text-sm text-[#5c4e40] leading-relaxed mb-4">
+              Spearheaded the complete engineering lifecycle of an automatic, rodless ceiling fan cleaning robot. Led electromechanical architecture, lightweight CAD structural iterations, motor &amp; actuator drive circuitry, and hands-on laboratory debugging from concept to functional prototype.
+            </p>
+            <div class="flex flex-wrap gap-2 text-[11px] font-mono text-[#483d33]">
+              <span class="px-2.5 py-1 rounded-lg bg-[#f7f2ea] border border-[#ded3c0]">Team Leadership</span>
+              <span class="px-2.5 py-1 rounded-lg bg-[#f7f2ea] border border-[#ded3c0]">CAD &amp; Prototyping</span>
+              <span class="px-2.5 py-1 rounded-lg bg-[#f7f2ea] border border-[#ded3c0]">System Integration</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="relative pl-8 sm:pl-10">
+          <span class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-[#8c7e6e] ring-4 ring-[#faf6f0]"></span>
+          <div class="vintage-card rounded-3xl p-6 sm:p-7">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+              <h3 class="font-serif text-xl font-bold text-[#1d1814]">Bachelor's Degree in Electronics Engineering</h3>
+              <span class="font-mono text-xs px-3 py-1 rounded-full bg-[#f4eee2] text-[#483d33] border border-[#d9ccba] w-fit font-semibold">
+                UNDERGRADUATE CANDIDATE
+              </span>
+            </div>
+            <p class="text-sm font-semibold text-[#483d33] mb-3">Department of Electronics Engineering</p>
+            <p class="text-sm text-[#5c4e40] leading-relaxed mb-4">
+              Cultivating an in-depth foundation across analog &amp; digital circuit design, nodal/mesh and star-delta network analysis, Karnaugh-map logic synthesis, embedded C/C++ &amp; Python programming, and systematic laboratory hardware validation.
+            </p>
+            <div class="flex flex-wrap gap-2 text-[11px] font-mono text-[#483d33]">
+              <span class="px-2.5 py-1 rounded-lg bg-[#f7f2ea] border border-[#ded3c0]">Circuit Analysis</span>
+              <span class="px-2.5 py-1 rounded-lg bg-[#f7f2ea] border border-[#ded3c0]">Digital Logic</span>
+              <span class="px-2.5 py-1 rounded-lg bg-[#f7f2ea] border border-[#ded3c0]">C / C++ / Python</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PRESENTATION FEEDBACK & EVALUATION ==================== -->
+  <section id="feedback" class="reveal-section py-20 sm:py-28 border-b border-[#e5dcce]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- Section Header -->
+      <div class="max-w-3xl mb-12">
+        <p class="font-mono text-xs uppercase tracking-widest text-accent font-semibold mb-2.5">05 // PRESENTATION EVALUATION &amp; PEER REVIEWS</p>
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-[#1d1814] tracking-tight mb-3">
+          Classroom peer reviews &amp; hardware evaluation.
+        </h2>
+        <p class="text-sm sm:text-base text-[#5c4e40] leading-relaxed">
+          Evaluators, professors, and classmates can submit a star rating and critique below. Every submission instantly records the evaluator's name, star rating score, and constructive engineering remarks.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+        <!-- Left Column: Submit Feedback Card -->
+        <div class="lg:col-span-5 vintage-card rounded-3xl p-6 sm:p-8">
+          <div class="flex items-center gap-2.5 mb-5 pb-4 border-b border-[#ece2d3]">
+            <span class="w-8 h-8 rounded-xl bg-accent-soft border border-accent-soft text-accent flex items-center justify-center font-serif font-bold text-sm">
+              ★
+            </span>
+            <div>
+              <h3 class="font-serif text-lg font-bold text-[#1d1814]">Submit Evaluation</h3>
+              <p class="text-[11px] font-mono text-[#786b5e]">Rate Henil's presentation &amp; prototype</p>
+            </div>
+          </div>
+
+          <form id="evaluationForm" novalidate class="space-y-4">
+            <!-- Reviewer Name -->
+            <div>
+              <label for="evaluatorName" class="block text-xs font-mono uppercase tracking-wider text-[#483d33] font-semibold mb-1.5">
+                Evaluator Name *
+              </label>
+              <input
+                id="evaluatorName"
+                type="text"
+                required
+                placeholder="e.g. Prof. R. K. Sharma / Aarav Mehta"
+                class="w-full px-3.5 py-2.5 rounded-xl bg-[#faf6f0] border border-[#dcd1be] text-sm text-[#1d1814] placeholder-[#9d8e7e] focus:outline-none focus:border-accent focus:bg-white transition-all shadow-inner"
+              />
+              <p id="evaluatorNameError" class="hidden text-xs text-rose-600 mt-1 font-medium">Please enter your name.</p>
+            </div>
+
+            <!-- Reviewer Role & Topic Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label for="evaluatorRole" class="block text-xs font-mono uppercase tracking-wider text-[#483d33] font-semibold mb-1.5">
+                  Your Role
+                </label>
+                <select
+                  id="evaluatorRole"
+                  class="w-full px-3 py-2.5 rounded-xl bg-[#faf6f0] border border-[#dcd1be] text-xs text-[#1d1814] focus:outline-none focus:border-accent focus:bg-white transition-all"
+                >
+                  <option value="Faculty / Professor">Faculty / Professor</option>
+                  <option value="Classmate / Peer">Classmate / Peer</option>
+                  <option value="Lab Reviewer">Lab Reviewer</option>
+                  <option value="Industry Recruiter">Industry Recruiter</option>
+                  <option value="Guest Evaluator">Guest Evaluator</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="evaluatorTopic" class="block text-xs font-mono uppercase tracking-wider text-[#483d33] font-semibold mb-1.5">
+                  Evaluation Topic
+                </label>
+                <select
+                  id="evaluatorTopic"
+                  class="w-full px-3 py-2.5 rounded-xl bg-[#faf6f0] border border-[#dcd1be] text-xs text-[#1d1814] focus:outline-none focus:border-accent focus:bg-white transition-all"
+                >
+                  <option value="Fan Cleaning Robot (3D Model)">Fan Cleaning Robot (3D Model)</option>
+                  <option value="Circuit & Network Analysis">Circuit &amp; Network Analysis</option>
+                  <option value="Digital Logic & Architecture">Digital Logic &amp; Architecture</option>
+                  <option value="Overall Presentation & Defense">Overall Presentation &amp; Defense</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Interactive 5-Star Rating Selector -->
+            <div>
+              <label class="block text-xs font-mono uppercase tracking-wider text-[#483d33] font-semibold mb-1.5">
+                Star Rating *
+              </label>
+              <div class="p-3 rounded-xl bg-[#faf6f0] border border-[#dcd1be] flex flex-col items-center justify-center gap-2">
+                <div id="starButtonGroup" class="flex items-center gap-2.5 cursor-pointer py-1" role="radiogroup" aria-label="Select star rating from 1 to 5">
+                  <!-- Populated by JavaScript -->
+                </div>
+                <input type="hidden" id="selectedStarValue" value="5" />
+                <span id="starRatingDescription" class="font-mono text-xs font-semibold text-[#b47834]">
+                  ★★★★★ 5 / 5 Stars — Outstanding Hardware Prototyping!
+                </span>
+              </div>
+            </div>
+
+            <!-- Written Comment -->
+            <div>
+              <label for="evaluatorComment" class="block text-xs font-mono uppercase tracking-wider text-[#483d33] font-semibold mb-1.5">
+                Evaluation Remarks *
+              </label>
+              <textarea
+                id="evaluatorComment"
+                rows="3"
+                required
+                placeholder="Share technical observations, feedback on the 3D model, or prototype questions..."
+                class="w-full px-3.5 py-2.5 rounded-xl bg-[#faf6f0] border border-[#dcd1be] text-sm text-[#1d1814] placeholder-[#9d8e7e] focus:outline-none focus:border-accent focus:bg-white transition-all resize-none shadow-inner"
+              ></textarea>
+              <p id="evaluatorCommentError" class="hidden text-xs text-rose-600 mt-1 font-medium">Please enter your feedback (at least 6 characters).</p>
+            </div>
+
+            <!-- Submit Button -->
+            <button
+              type="submit"
+              class="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl text-sm font-semibold bg-[#1d1814] text-[#faf6f0] hover:bg-[#332b24] shadow-md transition-all active:scale-[0.99]"
+            >
+              <span>Record Star Rating &amp; Name</span>
+              <span class="text-accent">★</span>
+            </button>
+
+            <!-- Success confirmation banner -->
+            <div id="feedbackSuccessAlert" class="hidden p-3.5 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs flex items-center gap-2.5 shadow-sm">
+              <span class="text-emerald-600 font-bold text-sm">✓</span>
+              <div>
+                <p class="font-bold text-[#1d1814]">Review recorded!</p>
+                <p class="text-[11px] text-emerald-800">Your star rating and name have been added to Henil's presentation scoreboard.</p>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Right Column: Live Reviews Stream & Scoreboard -->
+        <div class="lg:col-span-7 flex flex-col space-y-5">
+          <!-- Live Scoreboard Summary Banner -->
+          <div class="vintage-card rounded-2xl p-5 border border-[#dfd3c0] bg-gradient-to-r from-white via-[#fcfaf5] to-[#f7f2ea] flex flex-wrap items-center justify-between gap-4 shadow-sm">
+            <div class="flex items-center gap-4">
+              <div class="flex flex-col items-center justify-center p-3 rounded-2xl bg-[#faf6f0] border border-[#dcd1be] min-w-[76px]">
+                <span id="avgRatingDisplay" class="font-serif text-3xl font-bold text-[#1d1814] leading-none">5.0</span>
+                <div class="flex text-[#b47834] text-xs mt-1">★★★★★</div>
+              </div>
+              <div>
+                <div class="font-serif text-base font-bold text-[#1d1814]">Evaluation Scoreboard</div>
+                <p id="totalReviewsCountText" class="text-xs font-mono text-[#786b5e]">3 peer evaluations recorded</p>
+                <span class="inline-flex items-center gap-1.5 mt-1 text-[11px] font-mono text-emerald-700 font-medium">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> 100% Recommendation Rate
+                </span>
+              </div>
+            </div>
+
+            <!-- Clear / Reset option -->
+            <div class="flex items-center gap-2">
+              <button
+                id="resetFeedbackBtn"
+                type="button"
+                title="Reset reviews to defaults"
+                class="px-3 py-1.5 rounded-xl bg-white border border-[#d9ccba] text-[11px] font-mono text-[#786b5e] hover:text-[#1d1814] hover:bg-[#faf6f0] transition-colors"
+              >
+                Reset Default Reviews
+              </button>
+            </div>
+          </div>
+
+          <!-- Live Reviews Feed Container -->
+          <div id="feedbackFeed" class="space-y-4 max-h-[580px] overflow-y-auto pr-1">
+            <!-- Dynamically populated from localStorage & script -->
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== CONTACT SECTION ==================== -->
+  <section id="contact" class="reveal-section py-20 sm:py-28">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+
+        <!-- Left Column: Contact Information & One-Click Copy -->
+        <div class="lg:col-span-5">
+          <p class="font-mono text-xs uppercase tracking-widest text-accent font-semibold mb-2.5">06 // INITIATE DIALOGUE</p>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-[#1d1814] tracking-tight mb-4">
+            Let's collaborate on hardware engineering and embedded prototypes.
+          </h2>
+          <p class="text-[#5c4e40] leading-relaxed mb-8">
+            Available for electronics engineering internships, robotics research, or innovative hardware development. Connect directly via email or professional profiles below.
+          </p>
+
+          <div class="vintage-card rounded-2xl p-4 mb-6 flex items-center justify-between gap-3">
+            <div class="min-w-0">
+              <div class="font-mono text-[11px] text-[#786b5e] uppercase font-semibold">Direct Email Address</div>
+              <div id="emailAddressText" class="text-sm sm:text-base font-semibold text-[#1d1814] truncate">henilpatel5523@gmail.com</div>
+            </div>
+            <button
+              id="copyEmailBtn"
+              type="button"
+              class="shrink-0 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-[#1d1814] hover:bg-[#332b24] text-white transition-all shadow-sm active:scale-95"
+            >
+              <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+              </svg>
+              <span id="copyEmailLabel">Copy</span>
+            </button>
+          </div>
+
+          <div class="flex flex-wrap gap-3">
+            <a
+              href="https://github.com/HenilPatel5523-bit"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="px-4 py-2.5 rounded-xl bg-white border border-[#d6c7b1] hover:border-accent-soft text-xs font-mono font-semibold text-[#3d3328] hover:text-[#1d1814] shadow-sm transition-all"
+            >
+              GITHUB ↗
+            </a>
+            <a
+              href="https://www.linkedin.com/in/henil-satishbhai-patel-785097449/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="px-4 py-2.5 rounded-xl bg-white border border-[#d6c7b1] hover:border-accent-soft text-xs font-mono font-semibold text-[#3d3328] hover:text-[#1d1814] shadow-sm transition-all"
+            >
+              LINKEDIN ↗
+            </a>
+            <a
+              href="mailto:henilpatel5523@gmail.com"
+              class="px-4 py-2.5 rounded-xl bg-white border border-[#d6c7b1] hover:border-accent-soft text-xs font-mono font-semibold text-[#3d3328] hover:text-[#1d1814] shadow-sm transition-all"
+            >
+              MAILTO ↗
+            </a>
+          </div>
+        </div>
+
+        <!-- Right Column: Working Contact Form -->
+        <div class="lg:col-span-7 vintage-card rounded-3xl p-7 sm:p-9">
+          <form id="contactForm" novalidate class="space-y-5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label for="senderName" class="block text-xs font-mono uppercase tracking-wider text-[#483d33] font-semibold mb-2">Your Name *</label>
+                <input
+                  id="senderName"
+                  name="name"
+                  type="text"
+                  required
+                  placeholder="e.g. Dr. Arthur Vance"
+                  class="w-full px-4 py-3 rounded-xl bg-[#faf6f0] border border-[#dcd1be] text-sm text-[#1d1814] placeholder-[#9d8e7e] focus:outline-none focus:border-accent focus:bg-white transition-all shadow-inner"
+                />
+                <p id="nameError" class="hidden text-xs text-rose-600 mt-1.5 font-medium">Please enter your name.</p>
+              </div>
+
+              <div>
+                <label for="senderEmail" class="block text-xs font-mono uppercase tracking-wider text-[#483d33] font-semibold mb-2">Email Address *</label>
+                <input
+                  id="senderEmail"
+                  name="email"
+                  type="email"
+                  required
+                  placeholder="name@university.edu"
+                  class="w-full px-4 py-3 rounded-xl bg-[#faf6f0] border border-[#dcd1be] text-sm text-[#1d1814] placeholder-[#9d8e7e] focus:outline-none focus:border-accent focus:bg-white transition-all shadow-inner"
+                />
+                <p id="emailError" class="hidden text-xs text-rose-600 mt-1.5 font-medium">Please provide a valid email address.</p>
+              </div>
+            </div>
+
+            <div>
+              <label for="projectTopic" class="block text-xs font-mono uppercase tracking-wider text-[#483d33] font-semibold mb-2">Inquiry Topic</label>
+              <select
+                id="projectTopic"
+                name="topic"
+                class="w-full px-4 py-3 rounded-xl bg-[#faf6f0] border border-[#dcd1be] text-sm text-[#1d1814] focus:outline-none focus:border-accent focus:bg-white transition-all"
+              >
+                <option value="Electronics / Hardware Internship">Electronics / Hardware Internship</option>
+                <option value="Robotics & Prototyping Collaboration">Robotics &amp; Prototyping Collaboration</option>
+                <option value="Circuit Design & Embedded Project">Circuit Design &amp; Embedded Project</option>
+                <option value="Academic Project Review">Academic Project Review</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="senderMessage" class="block text-xs font-mono uppercase tracking-wider text-[#483d33] font-semibold mb-2">Message *</label>
+              <textarea
+                id="senderMessage"
+                name="message"
+                rows="4"
+                required
+                placeholder="Share project specifications, engineering inquiry, or interview details..."
+                class="w-full px-4 py-3 rounded-xl bg-[#faf6f0] border border-[#dcd1be] text-sm text-[#1d1814] placeholder-[#9d8e7e] focus:outline-none focus:border-accent focus:bg-white transition-all resize-none shadow-inner"
+              ></textarea>
+              <p id="messageError" class="hidden text-xs text-rose-600 mt-1.5 font-medium">Please include a brief message (at least 10 characters).</p>
+            </div>
+
+            <button
+              type="submit"
+              class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-2xl text-sm font-semibold bg-[#1d1814] text-[#faf6f0] hover:bg-[#332b24] shadow-md transition-all active:scale-[0.99]"
+            >
+              <span>Transmit Message to Henil</span>
+              <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+              </svg>
+            </button>
+
+            <div
+              id="formSuccessBanner"
+              class="hidden p-4 rounded-2xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-sm flex items-start gap-3 shadow-sm"
+            >
+              <svg class="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div>
+                <p class="font-bold text-[#1d1814]">Message logged successfully!</p>
+                <p class="text-xs text-emerald-800 mt-0.5">Thank you for reaching out—Henil Patel will review your communication promptly.</p>
+              </div>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="py-10 border-t border-[#e2d6c3] bg-[#f4eee2] transition-colors duration-300">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#6e6052]">
+      <div class="flex items-center gap-2">
+        <span class="font-serif font-bold text-[#1d1814]">Henil Patel</span>
+        <span>•</span>
+        <span>Electronics Engineering &amp; Hardware Prototyping</span>
+      </div>
+      <div class="font-mono text-[11px] text-[#8c7d6c]">
+        &copy; 2026 HENIL PATEL // HP.LAB // VINTAGE EDITION
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== PROJECT DETAILS MODAL ==================== -->
+  <div
+    id="projectModal"
+    class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-[#1d1814]/65 backdrop-blur-sm"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modalTitle"
+  >
+    <div class="relative w-full max-w-2xl rounded-3xl bg-[#ffffff] border border-[#d6c7b1] p-6 sm:p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <button
+        id="closeModalBtn"
+        type="button"
+        aria-label="Close Project Details"
+        class="absolute top-5 right-5 p-2 rounded-xl bg-[#faf6f0] text-[#786b5e] hover:text-[#1d1814] border border-[#ded3bf] shadow-sm transition-colors"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <div id="modalCategoryBadge" class="inline-flex items-center px-3 py-1 rounded-full bg-accent-soft border border-accent-soft text-accent font-mono text-xs font-semibold mb-3">
+        CATEGORY
+      </div>
+      <h3 id="modalTitle" class="font-serif text-2xl font-bold text-[#1d1814] mb-3">Project Title</h3>
+
+      <div id="modalImageContainer" class="hidden mb-5 p-3 rounded-2xl bg-[#faf6f0] border border-[#e2d5c1] text-center">
+        <img
+          id="modalImage"
+          src="assets/fan-cleaning-robot.png"
+          alt="Project CAD Architecture"
+          class="max-h-64 mx-auto object-contain rounded-xl drop-shadow-md"
+        />
+        <p class="font-mono text-[11px] text-[#786b5e] mt-2">Figure 1.0 — Electromechanical CAD Prototype Assembly</p>
+      </div>
+
+      <p id="modalDescription" class="text-sm text-[#483d33] leading-relaxed mb-5">
+        Detailed engineering overview.
+      </p>
+
+      <div class="p-4 rounded-2xl bg-[#faf6f0] border border-[#e5dcce] mb-5">
+        <div class="font-mono text-[11px] text-[#786b5e] uppercase font-semibold mb-1.5">Key Engineering Highlights</div>
+        <ul id="modalHighlights" class="space-y-1.5 text-xs text-[#3d3328] list-disc list-inside"></ul>
+      </div>
+
+      <div id="modalTags" class="flex flex-wrap gap-2 mb-6"></div>
+
+      <div class="flex flex-wrap items-center justify-end gap-3">
+        <button
+          id="modalCloseSecondary"
+          type="button"
+          class="px-4 py-2.5 rounded-xl text-xs font-semibold bg-[#faf6f0] text-[#483d33] hover:bg-[#efe7da] border border-[#d9ccb9] transition-colors"
+        >
+          Close Inspection
+        </button>
+        <a
+          href="#contact"
+          id="modalInquireBtn"
+          class="px-5 py-2.5 rounded-xl text-xs font-semibold bg-[#1d1814] text-[#faf6f0] hover:bg-[#332b24] transition-colors"
+        >
+          Discuss Architecture With Henil &rarr;
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== JAVASCRIPT LOGIC ENGINE ==================== -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      /* --------------------------------------------------------------------------
+         1. CURSOR EYE-TRACKING & 3D PARALLAX AUTOMATON RIG (60FPS LERP LOOP)
+      -------------------------------------------------------------------------- */
+      const robotStage = document.getElementById('robotStage');
+      const robotTilt = document.getElementById('robotTilt');
+      const robotSvg = document.getElementById('robotSvg');
+      const leftEyeTracker = document.getElementById('leftEyeTracker');
+      const rightEyeTracker = document.getElementById('rightEyeTracker');
+      const leftEyelid = document.getElementById('leftEyelid');
+      const rightEyelid = document.getElementById('rightEyelid');
+      const eyebrowsGroup = document.getElementById('eyebrowsGroup');
+      const botSpeechText = document.getElementById('botSpeechText');
+
+      const LEFT_EYE_CENTER = { x: 151, y: 215 };
+      const RIGHT_EYE_CENTER = { x: 269, y: 215 };
+      const MAX_EYE_RADIUS = 13.5;
+
+      let pointerX = window.innerWidth * 0.5;
+      let pointerY = window.innerHeight * 0.4;
+      let hasPointerMoved = false;
+
+      let currentLeftOffset = { x: 0, y: 0 };
+      let currentRightOffset = { x: 0, y: 0 };
+      let currentTilt = { rx: 0, ry: 0 };
+
+      window.addEventListener('mousemove', (e) => {
+        pointerX = e.clientX;
+        pointerY = e.clientY;
+        hasPointerMoved = true;
+      }, { passive: true });
+
+      window.addEventListener('touchmove', (e) => {
+        if (e.touches && e.touches.length > 0) {
+          pointerX = e.touches[0].clientX;
+          pointerY = e.touches[0].clientY;
+          hasPointerMoved = true;
+        }
+      }, { passive: true });
+
+      window.addEventListener('touchstart', (e) => {
+        if (e.touches && e.touches.length > 0) {
+          pointerX = e.touches[0].clientX;
+          pointerY = e.touches[0].clientY;
+          hasPointerMoved = true;
+        }
+      }, { passive: true });
+
+      function computeBoundedEyeOffset(svgRect, eyeCenterSvg, targetClientX, targetClientY) {
+        const scaleX = svgRect.width / 420;
+        const scaleY = svgRect.height / 430;
+
+        const eyeScreenX = svgRect.left + eyeCenterSvg.x * scaleX;
+        const eyeScreenY = svgRect.top + eyeCenterSvg.y * scaleY;
+
+        const dx = targetClientX - eyeScreenX;
+        const dy = targetClientY - eyeScreenY;
+        const distance = Math.hypot(dx, dy);
+
+        if (distance < 0.001) return { x: 0, y: 0 };
+
+        const normalizedStrength = Math.min(1, distance / 260);
+        const travel = MAX_EYE_RADIUS * normalizedStrength;
+
+        return {
+          x: (dx / distance) * travel,
+          y: (dy / distance) * travel,
+        };
+      }
+
+      function animateRobotRig() {
+        if (robotSvg && leftEyeTracker && rightEyeTracker) {
+          const rect = robotSvg.getBoundingClientRect();
+
+          let targetX = pointerX;
+          let targetY = pointerY;
+          if (!hasPointerMoved) {
+            const t = performance.now() * 0.0012;
+            targetX = rect.left + rect.width * 0.5 + Math.cos(t) * 90;
+            targetY = rect.top + rect.height * 0.48 + Math.sin(t * 0.8) * 35;
+          }
+
+          const targetLeft = computeBoundedEyeOffset(rect, LEFT_EYE_CENTER, targetX, targetY);
+          const targetRight = computeBoundedEyeOffset(rect, RIGHT_EYE_CENTER, targetX, targetY);
+
+          const eyeLerp = 0.16;
+          currentLeftOffset.x += (targetLeft.x - currentLeftOffset.x) * eyeLerp;
+          currentLeftOffset.y += (targetLeft.y - currentLeftOffset.y) * eyeLerp;
+
+          currentRightOffset.x += (targetRight.x - currentRightOffset.x) * eyeLerp;
+          currentRightOffset.y += (targetRight.y - currentRightOffset.y) * eyeLerp;
+
+          leftEyeTracker.setAttribute(
+            'transform',
+            `translate(${currentLeftOffset.x.toFixed(2)}, ${currentLeftOffset.y.toFixed(2)})`
+          );
+          rightEyeTracker.setAttribute(
+            'transform',
+            `translate(${currentRightOffset.x.toFixed(2)}, ${currentRightOffset.y.toFixed(2)})`
+          );
+
+          const headCenterX = rect.left + rect.width * 0.5;
+          const headCenterY = rect.top + rect.height * 0.5;
+          const normX = Math.max(-1, Math.min(1, (targetX - headCenterX) / (window.innerWidth * 0.55)));
+          const normY = Math.max(-1, Math.min(1, (targetY - headCenterY) / (window.innerHeight * 0.55)));
+
+          const targetRotY = normX * 11;
+          const targetRotX = -normY * 9;
+
+          currentTilt.rx += (targetRotX - currentTilt.rx) * 0.09;
+          currentTilt.ry += (targetRotY - currentTilt.ry) * 0.09;
+
+          if (robotTilt) {
+            robotTilt.style.transform = `rotateX(${currentTilt.rx.toFixed(2)}deg) rotateY(${currentTilt.ry.toFixed(2)}deg)`;
+          }
+        }
+
+        requestAnimationFrame(animateRobotRig);
+      }
+
+      requestAnimationFrame(animateRobotRig);
+
+      /* --------------------------------------------------------------------------
+         2. BLINKING, DOUBLE-BLINK & DYNAMIC SPEECH STATUS
+      -------------------------------------------------------------------------- */
+      let isBlinking = false;
+
+      function triggerBlink(doubleBlink = false) {
+        if (isBlinking) return;
+        isBlinking = true;
+
+        const closeEyes = () => {
+          leftEyelid.style.transform = 'scaleY(1)';
+          rightEyelid.style.transform = 'scaleY(1)';
+        };
+        const openEyes = () => {
+          leftEyelid.style.transform = 'scaleY(0)';
+          rightEyelid.style.transform = 'scaleY(0)';
+        };
+
+        closeEyes();
+        setTimeout(() => {
+          openEyes();
+          if (doubleBlink) {
+            setTimeout(() => {
+              closeEyes();
+              setTimeout(() => {
+                openEyes();
+                isBlinking = false;
+              }, 110);
+            }, 120);
+          } else {
+            isBlinking = false;
+          }
+        }, 115);
+      }
+
+      function scheduleNextBlink() {
+        const delay = 3200 + Math.random() * 3300;
+        setTimeout(() => {
+          triggerBlink(Math.random() < 0.18);
+          scheduleNextBlink();
+        }, delay);
+      }
+      scheduleNextBlink();
+
+      const clickGreetings = [
+        'Greetings! Welcome to Henil Patel’s lab ⚡',
+        'Optical tracking calibrated & ready for presentation.',
+        'Scroll down to inspect the 3D Fan Cleaning Robot Model!',
+        'Dual-antenna telemetric system active!',
+      ];
+      let greetingIndex = 0;
+      let speechLockTimer = null;
+
+      const sectionMessages = [
+        { id: 'home', text: 'Tracking cursor...' },
+        { id: 'about', text: 'Viewing engineering profile & credentials' },
+        { id: 'skills', text: 'Inspecting circuit & logic skills' },
+        { id: 'projects', text: 'Inspecting 3D Fan Cleaning Robot Model' },
+        { id: 'experience', text: 'Reviewing leadership & academic pedigree' },
+        { id: 'feedback', text: 'Recording presentation feedback & star reviews ★' },
+        { id: 'contact', text: 'Ready to connect with Henil!' },
+      ];
+
+      function setSpeechStatus(text, lockMs = 0) {
+        if (!botSpeechText) return;
+        botSpeechText.textContent = text;
+        if (lockMs > 0) {
+          clearTimeout(speechLockTimer);
+          speechLockTimer = setTimeout(() => {
+            speechLockTimer = null;
+          }, lockMs);
+        }
+      }
+
+      robotStage.addEventListener('mouseenter', () => {
+        eyebrowsGroup.style.transform = 'translateY(-4px)';
+        if (!speechLockTimer) {
+          setSpeechStatus('Click my face!');
+        }
+      });
+
+      robotStage.addEventListener('mouseleave', () => {
+        eyebrowsGroup.style.transform = 'translateY(0px)';
+        if (!speechLockTimer) {
+          setSpeechStatus('Tracking cursor...');
+        }
+      });
+
+      function handleRobotInteract() {
+        triggerBlink(true);
+        eyebrowsGroup.style.transform = 'translateY(-6px)';
+        setTimeout(() => {
+          eyebrowsGroup.style.transform = 'translateY(0px)';
+        }, 320);
+
+        const msg = clickGreetings[greetingIndex % clickGreetings.length];
+        greetingIndex++;
+        setSpeechStatus(msg, 2800);
+      }
+
+      robotStage.addEventListener('click', handleRobotInteract);
+      robotStage.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleRobotInteract();
+        }
+      });
+
+      window.addEventListener('scroll', () => {
+        if (speechLockTimer) return;
+        const scrollPos = window.scrollY + window.innerHeight * 0.38;
+        for (let i = sectionMessages.length - 1; i >= 0; i--) {
+          const el = document.getElementById(sectionMessages[i].id);
+          if (el && el.offsetTop <= scrollPos) {
+            setSpeechStatus(sectionMessages[i].text);
+            break;
+          }
+        }
+      }, { passive: true });
+
+      /* --------------------------------------------------------------------------
+         3. VINTAGE THEME SWITCHER ("BRASS", "BLUEPRINT", "VERDIGRIS")
+      -------------------------------------------------------------------------- */
+      const themeConfigs = {
+        brass: {
+          label: 'Antique Brass',
+          dotColor: '#b47834',
+          rim: ['#fff6e5', '#fcd38d', '#d97706', '#92400e'],
+          iris: ['#f59e0b', '#b45309', '#78350f', '#2c1404'],
+          antenna: '#f59e0b',
+          ear: '#fbbf24',
+          ring: '#fcd34d',
+        },
+        blueprint: {
+          label: 'Cyanotype Blueprint',
+          dotColor: '#1e5bb8',
+          rim: ['#eff6ff', '#93c5fd', '#2563eb', '#1e3a8a'],
+          iris: ['#3b82f6', '#1d4ed8', '#1e3a8a', '#081630'],
+          antenna: '#60a5fa',
+          ear: '#3b82f6',
+          ring: '#93c5fd',
+        },
+        verdigris: {
+          label: 'Verdigris Patina',
+          dotColor: '#236c4b',
+          rim: ['#f0fdf4', '#86efac', '#16a34a', '#14532d'],
+          iris: ['#22c55e', '#15803d', '#14532d', '#052312'],
+          antenna: '#4ade80',
+          ear: '#22c55e',
+          ring: '#86efac',
+        },
+      };
+
+      const themeBtns = document.querySelectorAll('.theme-btn');
+      themeBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const themeKey = btn.getAttribute('data-set-theme');
+          const cfg = themeConfigs[themeKey];
+          if (!cfg) return;
+
+          document.body.setAttribute('data-theme', themeKey);
+
+          themeBtns.forEach((b) => {
+            b.classList.remove('bg-[#ffffff]', 'text-[#966023]', 'text-[#1e5bb8]', 'text-[#236c4b]', 'shadow-sm');
+            b.classList.add('text-[#64748b]');
+          });
+          btn.classList.remove('text-[#64748b]');
+          btn.classList.add('bg-[#ffffff]', 'shadow-sm');
+          if (themeKey === 'brass') btn.classList.add('text-[#966023]');
+          if (themeKey === 'blueprint') btn.classList.add('text-[#1e5bb8]');
+          if (themeKey === 'verdigris') btn.classList.add('text-[#236c4b]');
+
+          document.getElementById('rimStop1').setAttribute('stop-color', cfg.rim[0]);
+          document.getElementById('rimStop2').setAttribute('stop-color', cfg.rim[1]);
+          document.getElementById('rimStop3').setAttribute('stop-color', cfg.rim[2]);
+          document.getElementById('rimStop4').setAttribute('stop-color', cfg.rim[3]);
+
+          document.getElementById('irisStop1').setAttribute('stop-color', cfg.iris[0]);
+          document.getElementById('irisStop2').setAttribute('stop-color', cfg.iris[1]);
+          document.getElementById('irisStop3').setAttribute('stop-color', cfg.iris[2]);
+          document.getElementById('irisStop4').setAttribute('stop-color', cfg.iris[3]);
+
+          document.getElementById('leftAntennaTip').setAttribute('fill', cfg.antenna);
+          document.getElementById('rightAntennaTip').setAttribute('fill', cfg.antenna);
+          document.getElementById('leftEarRimGlow').setAttribute('fill', cfg.ear);
+          document.getElementById('rightEarRimGlow').setAttribute('fill', cfg.ear);
+
+          document.getElementById('leftIrisRing').setAttribute('stroke', cfg.ring);
+          document.getElementById('rightIrisRing').setAttribute('stroke', cfg.ring);
+          document.getElementById('leftIrisArc').setAttribute('stroke', cfg.ring);
+          document.getElementById('rightIrisArc').setAttribute('stroke', cfg.ring);
+
+          const speechDot = document.getElementById('speechIndicatorDot');
+          if (speechDot) speechDot.style.backgroundColor = cfg.dotColor;
+
+          triggerBlink(false);
+          setSpeechStatus(`Switched palette to ${cfg.label}!`, 2200);
+        });
+      });
+
+      /* --------------------------------------------------------------------------
+         4. INTERACTIVE DISCIPLINE TABS
+      -------------------------------------------------------------------------- */
+      const disciplineData = {
+        circuits: [
+          {
+            tag: 'NETWORK ANALYSIS',
+            title: 'Nodal, Mesh & Star-Delta',
+            desc: 'Solving multi-node resistive and reactive networks, impedance matching, and power distribution calculations.',
+          },
+          {
+            tag: 'POWER & SIGNALS',
+            title: 'Voltage Regulation & Conditioning',
+            desc: 'Designing stable power rails, motor driver interfaces, and noise-filtered sensor conditioning stages.',
+          },
+          {
+            tag: 'VERIFICATION',
+            title: 'Breadboard & Lab Debugging',
+            desc: 'Systematic continuity testing, multimeter/oscilloscope fault isolation, and schematic validation.',
+          },
+        ],
+        logic: [
+          {
+            tag: 'MINIMIZATION',
+            title: 'Karnaugh Maps & Boolean Algebra',
+            desc: 'Simplifying multi-variable truth tables into minimal gate-count combinational and sequential hardware.',
+          },
+          {
+            tag: 'DIGITAL BLOCKS',
+            title: 'Code Converters & Subtractors',
+            desc: 'Designing Binary-to-Gray converters, half/full subtractors, and deterministic state-machine logic.',
+          },
+          {
+            tag: 'FIRMWARE',
+            title: 'Embedded C, C++ & Python',
+            desc: 'Writing deterministic control routines, sensor polling loops, and hardware-in-the-loop test scripts.',
+          },
+        ],
+        electro: [
+          {
+            tag: 'MECHANICAL CAD',
+            title: 'Lightweight Structural Design',
+            desc: 'Creating durable, weight-balanced CAD assemblies tailored for mobile and overhead robotic mechanisms.',
+          },
+          {
+            tag: 'INTEGRATION',
+            title: 'Actuators, Motors & Sensors',
+            desc: 'Integrating DC/servo actuators with limit feedback and power electronics into a unified chassis.',
+          },
+          {
+            tag: 'PROTOTYPING',
+            title: 'Concept-to-Prototype Iteration',
+            desc: 'Rapidly testing physical tolerances, resolving mechanical-electrical interference, and refining reliability.',
+          },
+        ],
+      };
+
+      const disciplineBtns = document.querySelectorAll('.discipline-btn');
+      const disciplineContent = document.getElementById('disciplineContent');
+
+      disciplineBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const key = btn.getAttribute('data-discipline');
+          const items = disciplineData[key];
+          if (!items) return;
+
+          disciplineBtns.forEach((b) => {
+            b.className = 'discipline-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-[#f4eee2] text-[#483d33] border border-[#d9ccba] hover:border-accent-soft transition-all';
+          });
+          btn.className = 'discipline-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-[#1d1814] text-white transition-all shadow-sm';
+
+          disciplineContent.innerHTML = items
+            .map(
+              (item) => `
+              <div class="p-4 rounded-2xl bg-[#faf6f0] border border-[#e5dcce]">
+                <div class="font-mono text-xs text-accent font-semibold mb-1.5">${item.tag}</div>
+                <div class="font-serif font-bold text-[#1d1814] text-base mb-1">${item.title}</div>
+                <p class="text-xs text-[#5c4e40] leading-relaxed">${item.desc}</p>
+              </div>
+            `
+            )
+            .join('');
+        });
+      });
+
+      /* --------------------------------------------------------------------------
+         5. FLAGSHIP 3D CAD PHOTO VIEWPORT (CURSOR PARALLAX + TILT + HOTSPOTS)
+      -------------------------------------------------------------------------- */
+      const photo3DStage = document.getElementById('photo3DStage');
+      const photo3DCard = document.getElementById('photo3DCard');
+      const photoGlareOverlay = document.getElementById('photoGlareOverlay');
+      const autoTiltToggleBtn = document.getElementById('autoTiltToggleBtn');
+      const resetAngleBtn = document.getElementById('resetAngleBtn');
+
+      let isAutoTilt = true;
+      let targetCardRotX = 0;
+      let targetCardRotY = 0;
+      let currentCardRotX = 0;
+      let currentCardRotY = 0;
+
+      if (photo3DStage && photo3DCard) {
+        photo3DStage.addEventListener('mousemove', (e) => {
+          isAutoTilt = false;
+          autoTiltToggleBtn.textContent = 'Auto-Tilt: OFF';
+          autoTiltToggleBtn.classList.remove('bg-[#1d1814]', 'text-white');
+          autoTiltToggleBtn.classList.add('bg-white', 'text-[#483d33]');
+
+          const rect = photo3DStage.getBoundingClientRect();
+          const normX = (e.clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
+          const normY = (e.clientY - (rect.top + rect.height / 2)) / (rect.height / 2);
+
+          targetCardRotY = Math.max(-24, Math.min(24, normX * 22));
+          targetCardRotX = Math.max(-20, Math.min(20, -normY * 18));
+
+          if (photoGlareOverlay) {
+            const glareX = ((normX + 1) / 2) * 100;
+            const glareY = ((normY + 1) / 2) * 100;
+            photoGlareOverlay.style.background = `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.42) 0%, rgba(255,255,255,0.06) 45%, transparent 70%)`;
+            photoGlareOverlay.style.opacity = '1';
+          }
+        });
+
+        photo3DStage.addEventListener('mouseleave', () => {
+          targetCardRotX = 0;
+          targetCardRotY = 0;
+          if (photoGlareOverlay) {
+            photoGlareOverlay.style.opacity = '0';
+          }
+        });
+
+        photo3DStage.addEventListener('touchmove', (e) => {
+          if (e.touches && e.touches.length > 0) {
+            isAutoTilt = false;
+            autoTiltToggleBtn.textContent = 'Auto-Tilt: OFF';
+            const rect = photo3DStage.getBoundingClientRect();
+            const normX = (e.touches[0].clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
+            const normY = (e.touches[0].clientY - (rect.top + rect.height / 2)) / (rect.height / 2);
+            targetCardRotY = Math.max(-24, Math.min(24, normX * 22));
+            targetCardRotX = Math.max(-20, Math.min(20, -normY * 18));
+          }
+        }, { passive: true });
+      }
+
+      autoTiltToggleBtn.addEventListener('click', () => {
+        isAutoTilt = !isAutoTilt;
+        autoTiltToggleBtn.textContent = `Auto-Tilt: ${isAutoTilt ? 'ON' : 'OFF'}`;
+        if (isAutoTilt) {
+          autoTiltToggleBtn.classList.remove('bg-white', 'text-[#483d33]');
+          autoTiltToggleBtn.classList.add('bg-[#1d1814]', 'text-white');
+        } else {
+          autoTiltToggleBtn.classList.remove('bg-[#1d1814]', 'text-white');
+          autoTiltToggleBtn.classList.add('bg-white', 'text-[#483d33]');
+        }
+      });
+
+      resetAngleBtn.addEventListener('click', () => {
+        targetCardRotX = 0;
+        targetCardRotY = 0;
+        currentCardRotX = 0;
+        currentCardRotY = 0;
+        photo3DCard.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      });
+
+      function animate3DPhotoCard() {
+        if (photo3DCard) {
+          if (isAutoTilt) {
+            const time = performance.now() * 0.0012;
+            targetCardRotY = Math.sin(time) * 14;
+            targetCardRotX = Math.cos(time * 0.8) * 8;
+          }
+
+          currentCardRotX += (targetCardRotX - currentCardRotX) * 0.1;
+          currentCardRotY += (targetCardRotY - currentCardRotY) * 0.1;
+
+          photo3DCard.style.transform = `rotateX(${currentCardRotX.toFixed(2)}deg) rotateY(${currentCardRotY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
+        }
+        requestAnimationFrame(animate3DPhotoCard);
+      }
+      animate3DPhotoCard();
+
+      /* --------------------------------------------------------------------------
+         6. INTERACTIVE HOTSPOT PINS & LIVE SPECIFICATION CALLOUTS
+      -------------------------------------------------------------------------- */
+      const hotspotData = {
+        '1': {
+          number: 'HOTSPOT 1 OF 4',
+          title: 'Dual Counter-Rotating Microfiber Rollers',
+          desc: 'High-friction cylindrical rollers sandwich the ceiling fan blade from top and bottom simultaneously. Rotating in counter directions, they capture stubborn dust and grime without exerting unbalancing torque on the fan downrod.',
+        },
+        '2': {
+          number: 'HOTSPOT 2 OF 4',
+          title: 'Lateral Stabilizer & Blade Clamp Wheels',
+          desc: 'Precision spring-loaded guide wheels clamp onto the sides of the blade. They maintain perfect longitudinal alignment across varying blade widths and aerodynamic pitch angles, eliminating the need for an external guide rod.',
+        },
+        '3': {
+          number: 'HOTSPOT 3 OF 4',
+          title: 'Integrated Control & Power Core',
+          desc: 'Internal microcontroller drive board paired with an H-bridge driver circuit, high-torque geared DC actuators, rechargeable Li-ion power pack, and top-panel illuminated telemetry status LEDs.',
+        },
+        '4': {
+          number: 'HOTSPOT 4 OF 4',
+          title: 'Autonomous Traversal & Edge Detection',
+          desc: 'Smart mechanical/optical limit sensing detects when the cleaner reaches the blade tip. It instantly cuts motor drive and engages reverse traversal back to the central hub for complete automated blade coverage.',
+        },
+      };
+
+      const hotspotPins = document.querySelectorAll('.cad-hotspot-pin');
+      const hotspotDetailBox = document.getElementById('hotspotDetailBox');
+      const hotspotNumberTag = document.getElementById('hotspotNumberTag');
+      const hotspotTitle = document.getElementById('hotspotTitle');
+      const hotspotDescription = document.getElementById('hotspotDescription');
+
+      hotspotPins.forEach((pin) => {
+        const id = pin.getAttribute('data-hotspot');
+        const updateHotspot = () => {
+          const data = hotspotData[id];
+          if (!data) return;
+
+          hotspotNumberTag.textContent = data.number;
+          hotspotTitle.textContent = data.title;
+          hotspotDescription.textContent = data.desc;
+
+          hotspotDetailBox.classList.add('ring-4', 'ring-[#b47834]/30');
+          setTimeout(() => {
+            hotspotDetailBox.classList.remove('ring-4', 'ring-[#b47834]/30');
+          }, 350);
+        };
+
+        pin.addEventListener('click', updateHotspot);
+        pin.addEventListener('mouseenter', updateHotspot);
+      });
+
+      /* --------------------------------------------------------------------------
+         7. THREE.JS 360° INTERACTIVE 3D CAD SIMULATION (MODE B)
+      -------------------------------------------------------------------------- */
+      const togglePhoto3DBtn = document.getElementById('togglePhoto3DBtn');
+      const toggleThree3DBtn = document.getElementById('toggleThree3DBtn');
+      const photo3DStageEl = document.getElementById('photo3DStage');
+      const three3DStageEl = document.getElementById('three3DStage');
+      const active3DModeLabel = document.getElementById('active3DModeLabel');
+      const toggleWireframeBtn = document.getElementById('toggleWireframeBtn');
+
+      let isThreeInitialized = false;
+      let threeScene, threeCamera, threeRenderer, threeModelGroup;
+      let threeRollers = [];
+      let isWireframe = false;
+      let isThreeDragging = false;
+      let prevMouseX = 0;
+      let prevMouseY = 0;
+      let threeRotSpeed = 0.005;
+
+      function initThreeJsSimulation() {
+        if (isThreeInitialized || typeof THREE === 'undefined') return;
+        const container = document.getElementById('threeCanvasContainer');
+        if (!container) return;
+
+        const width = container.clientWidth || 480;
+        const height = container.clientHeight || 360;
+
+        threeScene = new THREE.Scene();
+        threeCamera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
+        threeCamera.position.set(0, 2.8, 9.5);
+
+        threeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        threeRenderer.setSize(width, height);
+        threeRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        threeRenderer.setClearColor(0x000000, 0);
+        container.appendChild(threeRenderer.domElement);
+
+        const ambLight = new THREE.AmbientLight(0xfff8ee, 1.2);
+        threeScene.add(ambLight);
+
+        const dirLight1 = new THREE.DirectionalLight(0xffffff, 1.3);
+        dirLight1.position.set(5, 10, 7);
+        threeScene.add(dirLight1);
+
+        const dirLight2 = new THREE.DirectionalLight(0xb47834, 0.7);
+        dirLight2.position.set(-6, -4, -6);
+        threeScene.add(dirLight2);
+
+        threeModelGroup = new THREE.Group();
+
+        const bladeGeo = new THREE.BoxGeometry(8.5, 0.12, 1.8);
+        const bladeMat = new THREE.MeshStandardMaterial({
+          color: 0x2e353f,
+          roughness: 0.35,
+          metalness: 0.65,
+        });
+        const bladeMesh = new THREE.Mesh(bladeGeo, bladeMat);
+        threeModelGroup.add(bladeMesh);
+
+        const chassisMat = new THREE.MeshStandardMaterial({
+          color: 0x374151,
+          roughness: 0.3,
+          metalness: 0.5,
+        });
+
+        const topHousingGeo = new THREE.BoxGeometry(4.2, 0.55, 2.2);
+        const topHousing = new THREE.Mesh(topHousingGeo, chassisMat);
+        topHousing.position.set(0, 0.85, 0);
+        threeModelGroup.add(topHousing);
+
+        const btmHousingGeo = new THREE.BoxGeometry(4.2, 0.55, 2.2);
+        const btmHousing = new THREE.Mesh(btmHousingGeo, chassisMat);
+        btmHousing.position.set(0, -0.85, 0);
+        threeModelGroup.add(btmHousing);
+
+        const sideSupportGeo = new THREE.BoxGeometry(0.45, 1.8, 2.2);
+        const leftSupport = new THREE.Mesh(sideSupportGeo, chassisMat);
+        leftSupport.position.set(-1.88, 0, 0);
+        threeModelGroup.add(leftSupport);
+
+        const rightSupport = new THREE.Mesh(sideSupportGeo, chassisMat);
+        rightSupport.position.set(1.88, 0, 0);
+        threeModelGroup.add(rightSupport);
+
+        const panelGeo = new THREE.BoxGeometry(3.0, 0.08, 1.5);
+        const panelMat = new THREE.MeshStandardMaterial({ color: 0x111827, roughness: 0.2 });
+        const panel = new THREE.Mesh(panelGeo, panelMat);
+        panel.position.set(0, 1.15, 0);
+        threeModelGroup.add(panel);
+
+        const ledGeo = new THREE.SphereGeometry(0.065, 16, 16);
+        const ledMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
+        const led1 = new THREE.Mesh(ledGeo, ledMat);
+        led1.position.set(-0.2, 1.2, 0);
+        const led2 = new THREE.Mesh(ledGeo, ledMat);
+        led2.position.set(0.2, 1.2, 0);
+        threeModelGroup.add(led1);
+        threeModelGroup.add(led2);
+
+        const rollerMat = new THREE.MeshStandardMaterial({
+          color: 0x84cc16,
+          roughness: 0.75,
+          metalness: 0.1,
+        });
+        const rollerGeo = new THREE.CylinderGeometry(0.36, 0.36, 1.8, 24);
+
+        const topRoller1 = new THREE.Mesh(rollerGeo, rollerMat);
+        topRoller1.rotation.z = Math.PI / 2;
+        topRoller1.position.set(0, 0.44, -0.5);
+        threeModelGroup.add(topRoller1);
+        threeRollers.push(topRoller1);
+
+        const topRoller2 = new THREE.Mesh(rollerGeo, rollerMat);
+        topRoller2.rotation.z = Math.PI / 2;
+        topRoller2.position.set(0, 0.44, 0.5);
+        threeModelGroup.add(topRoller2);
+        threeRollers.push(topRoller2);
+
+        const btmRoller1 = new THREE.Mesh(rollerGeo, rollerMat);
+        btmRoller1.rotation.z = Math.PI / 2;
+        btmRoller1.position.set(0, -0.44, -0.5);
+        threeModelGroup.add(btmRoller1);
+        threeRollers.push(btmRoller1);
+
+        const btmRoller2 = new THREE.Mesh(rollerGeo, rollerMat);
+        btmRoller2.rotation.z = Math.PI / 2;
+        btmRoller2.position.set(0, -0.44, 0.5);
+        threeModelGroup.add(btmRoller2);
+        threeRollers.push(btmRoller2);
+
+        const wheelGeo = new THREE.CylinderGeometry(0.22, 0.22, 0.2, 16);
+        const wheelMat = new THREE.MeshStandardMaterial({ color: 0x84cc16 });
+        const wheelLeft = new THREE.Mesh(wheelGeo, wheelMat);
+        wheelLeft.rotation.x = Math.PI / 2;
+        wheelLeft.position.set(-2.15, 0, 0);
+        threeModelGroup.add(wheelLeft);
+
+        const wheelRight = new THREE.Mesh(wheelGeo, wheelMat);
+        wheelRight.rotation.x = Math.PI / 2;
+        wheelRight.position.set(2.15, 0, 0);
+        threeModelGroup.add(wheelRight);
+
+        threeModelGroup.rotation.x = 0.25;
+        threeModelGroup.rotation.y = -0.55;
+        threeScene.add(threeModelGroup);
+
+        const canvas = threeRenderer.domElement;
+        canvas.addEventListener('mousedown', (e) => {
+          isThreeDragging = true;
+          prevMouseX = e.clientX;
+          prevMouseY = e.clientY;
+        });
+
+        window.addEventListener('mouseup', () => {
+          isThreeDragging = false;
+        });
+
+        window.addEventListener('mousemove', (e) => {
+          if (!isThreeDragging) return;
+          const deltaX = e.clientX - prevMouseX;
+          const deltaY = e.clientY - prevMouseY;
+
+          threeModelGroup.rotation.y += deltaX * 0.009;
+          threeModelGroup.rotation.x = Math.max(-0.7, Math.min(0.7, threeModelGroup.rotation.x + deltaY * 0.009));
+
+          prevMouseX = e.clientX;
+          prevMouseY = e.clientY;
+        });
+
+        canvas.addEventListener('touchstart', (e) => {
+          if (e.touches.length > 0) {
+            isThreeDragging = true;
+            prevMouseX = e.touches[0].clientX;
+            prevMouseY = e.touches[0].clientY;
+          }
+        }, { passive: true });
+
+        canvas.addEventListener('touchmove', (e) => {
+          if (!isThreeDragging || e.touches.length === 0) return;
+          const deltaX = e.touches[0].clientX - prevMouseX;
+          const deltaY = e.touches[0].clientY - prevMouseY;
+
+          threeModelGroup.rotation.y += deltaX * 0.009;
+          threeModelGroup.rotation.x = Math.max(-0.7, Math.min(0.7, threeModelGroup.rotation.x + deltaY * 0.009));
+
+          prevMouseX = e.touches[0].clientX;
+          prevMouseY = e.touches[0].clientY;
+        }, { passive: true });
+
+        canvas.addEventListener('touchend', () => {
+          isThreeDragging = false;
+        });
+
+        canvas.addEventListener('wheel', (e) => {
+          e.preventDefault();
+          threeCamera.position.z = Math.max(5.5, Math.min(13, threeCamera.position.z + e.deltaY * 0.005));
+        }, { passive: false });
+
+        window.addEventListener('resize', () => {
+          if (!container) return;
+          const w = container.clientWidth || 480;
+          const h = container.clientHeight || 360;
+          threeCamera.aspect = w / h;
+          threeCamera.updateProjectionMatrix();
+          threeRenderer.setSize(w, h);
+        });
+
+        function renderThreeScene() {
+          requestAnimationFrame(renderThreeScene);
+
+          threeRollers.forEach((r, idx) => {
+            r.rotation.x += (idx % 2 === 0 ? 0.06 : -0.06);
+          });
+
+          if (!isThreeDragging) {
+            threeModelGroup.rotation.y += threeRotSpeed;
+          }
+
+          threeRenderer.render(threeScene, threeCamera);
+        }
+        renderThreeScene();
+
+        isThreeInitialized = true;
+      }
+
+      togglePhoto3DBtn.addEventListener('click', () => {
+        photo3DStageEl.classList.remove('hidden');
+        three3DStageEl.classList.add('hidden');
+
+        togglePhoto3DBtn.className = 'px-3.5 py-1.5 rounded-xl font-semibold bg-[#ffffff] text-[#1d1814] shadow-sm transition-all';
+        toggleThree3DBtn.className = 'px-3.5 py-1.5 rounded-xl font-semibold text-[#6e6052] hover:text-[#1d1814] transition-all';
+        active3DModeLabel.textContent = '3D PARALLAX ACTIVE';
+      });
+
+      toggleThree3DBtn.addEventListener('click', () => {
+        photo3DStageEl.classList.add('hidden');
+        three3DStageEl.classList.remove('hidden');
+
+        toggleThree3DBtn.className = 'px-3.5 py-1.5 rounded-xl font-semibold bg-[#ffffff] text-[#1d1814] shadow-sm transition-all';
+        togglePhoto3DBtn.className = 'px-3.5 py-1.5 rounded-xl font-semibold text-[#6e6052] hover:text-[#1d1814] transition-all';
+        active3DModeLabel.textContent = '360° WEBGL ACTIVE';
+
+        initThreeJsSimulation();
+      });
+
+      toggleWireframeBtn.addEventListener('click', () => {
+        isWireframe = !isWireframe;
+        toggleWireframeBtn.textContent = `Wireframe: ${isWireframe ? 'ON' : 'OFF'}`;
+        if (threeModelGroup) {
+          threeModelGroup.traverse((child) => {
+            if (child.isMesh && child.material) {
+              child.material.wireframe = isWireframe;
+            }
+          });
+        }
+      });
+
+      /* --------------------------------------------------------------------------
+         8. FILTERABLE PROJECTS & INSPECTION MODAL
+      -------------------------------------------------------------------------- */
+      const projects = [
+        {
+          id: 'fan-cleaning-robot',
+          category: 'robotics',
+          categoryLabel: 'Flagship Build • Head Member',
+          title: 'Automatic Rodless Ceiling Fan Cleaning Robot',
+          summary: 'Led the hardware and electromechanical engineering team as Head / Leading Member to build a lightweight, durable, rodless automatic ceiling fan cleaning machine from concept and CAD modeling to working prototype.',
+          image: 'assets/fan-cleaning-robot.png',
+          tags: ['Team Lead', '3D CAD Model', 'Electromechanical Prototyping', 'Motor Control', 'Hardware Debugging'],
+          highlights: [
+            'Directed overall system architecture, weight-balance optimization, and component layout as Head Member',
+            'Engineered a rodless, lightweight chassis and modular cleaning head mechanism through iterative CAD modeling',
+            'Integrated motor drive electronics, dual-direction power distribution, and bench debugging for reliable blade traversal',
+          ],
+          accentGrad: 'from-[#fae8cb] via-[#f7ecd9] to-[#ffffff]',
+        },
+        {
+          id: 'digital-logic-suite',
+          category: 'logic',
+          categoryLabel: 'Digital Logic • Laboratory Build',
+          title: 'Combinational Logic & Code Converter Circuit Suite',
+          summary: 'Hardware implementation of minimized combinational logic blocks, featuring Binary-to-Gray / Gray-to-Binary code converters and multi-bit half/full subtractor stages.',
+          image: null,
+          tags: ['Digital Logic', 'Karnaugh Maps', 'Code Converters', 'Subtractors', 'Hardware Verification'],
+          highlights: [
+            'Synthesized minimal SOP/POS logic expressions using 4-variable Karnaugh maps to minimize discrete IC packages',
+            'Built and validated Binary ↔ Gray code converters and borrow-lookahead subtractors on laboratory trainers',
+            'Verified truth-table propagation delays and transient glitch suppression through rigorous bench testing',
+          ],
+          accentGrad: 'from-[#e6eefc] via-[#f0f4fd] to-[#ffffff]',
+        },
+        {
+          id: 'multi-node-circuit-lab',
+          category: 'circuits',
+          categoryLabel: 'Circuit Analysis • Laboratory Build',
+          title: 'Multi-Node Network & Star-Delta Analysis Prototype',
+          summary: 'Analytical mathematical modeling and physical laboratory bench verification of complex bridge networks using nodal/mesh formulations and Star-Delta transformations with Python validation scripts.',
+          image: null,
+          tags: ['Circuit Design & Analysis', 'Star-Delta', 'Nodal & Mesh', 'Python Scripting', 'Hardware Debugging'],
+          highlights: [
+            'Solved multi-loop resistive bridge networks analytically and cross-verified via Python matrix solvers',
+            'Constructed breadboard test fixtures to measure real branch currents and node voltages under varying load',
+            'Isolated component tolerance variances and contact resistance shifts during laboratory bench debugging',
+          ],
+          accentGrad: 'from-[#eaf5ee] via-[#f2faf4] to-[#ffffff]',
+        },
+        {
+          id: 'embedded-sensor-controller',
+          category: 'robotics',
+          categoryLabel: 'Embedded C/C++ • Prototype',
+          title: 'Embedded Actuator & Telemetric Feedback Controller',
+          summary: 'Modular C/C++ firmware and driver interface prototype designed for closed-loop motor speed regulation, limit-switch safety cutoffs, and serial telemetry.',
+          image: null,
+          tags: ['C / C++', 'Python', 'Electromechanical', 'Circuit Design', 'System Integration'],
+          highlights: [
+            'Authored deterministic C/C++ control routines for PWM motor actuation and limit-sensor emergency cutoffs',
+            'Designed inductive flyback protection and MOSFET driver interfacing stages for mechanical actuators',
+            'Developed a lightweight Python serial monitor to log real-time sensor states and fault telemetry',
+          ],
+          accentGrad: 'from-[#fceddf] via-[#faf2ea] to-[#ffffff]',
+        },
+      ];
+
+      const projectsGrid = document.getElementById('projectsGrid');
+      const filterBtns = document.querySelectorAll('.filter-btn');
+
+      function renderProjects(filter = 'all') {
+        const filtered = filter === 'all' ? projects : projects.filter((p) => p.category === filter);
+
+        projectsGrid.innerHTML = filtered
+          .map(
+            (proj) => `
+            <article class="vintage-card rounded-3xl overflow-hidden flex flex-col justify-between group">
+              <div>
+                <div class="h-44 bg-gradient-to-br ${proj.accentGrad} border-b border-[#e5dcce] p-6 flex flex-col justify-between relative overflow-hidden">
+                  <div class="flex items-center justify-between z-10">
+                    <span class="px-3 py-1 rounded-full bg-white/90 border border-[#d9ccb9] font-mono text-[11px] text-accent font-semibold shadow-sm">
+                      ${proj.categoryLabel}
+                    </span>
+                    <span class="font-mono text-xs text-[#786b5e] font-medium">SPEC SHEET</span>
+                  </div>
+
+                  ${
+                    proj.image
+                      ? `<div class="z-10 flex items-center gap-3">
+                           <img src="${proj.image}" alt="${proj.title}" class="h-16 w-auto object-contain rounded-lg drop-shadow bg-white/80 p-1 border border-[#d9ccba]" />
+                           <span class="text-xs font-mono font-semibold text-[#1d1814]">3D CAD Model &amp; Prototype</span>
+                         </div>`
+                      : `<div class="z-10 flex items-center gap-2 mt-4">
+                           <div class="h-2.5 w-2.5 rounded-full bg-[#1d1814]/70"></div>
+                           <div class="h-1.5 w-24 rounded-full bg-[#1d1814]/25"></div>
+                           <div class="h-1.5 w-12 rounded-full bg-[#1d1814]/15"></div>
+                         </div>`
+                  }
+                </div>
+
+                <div class="p-6 sm:p-7">
+                  <h3 class="font-serif text-xl font-bold text-[#1d1814] mb-2.5 group-hover:text-accent transition-colors">
+                    ${proj.title}
+                  </h3>
+                  <p class="text-sm text-[#483d33] leading-relaxed mb-5">
+                    ${proj.summary}
+                  </p>
+                  <div class="flex flex-wrap gap-2">
+                    ${proj.tags
+                      .map(
+                        (tag) =>
+                          `<span class="px-2.5 py-1 rounded-lg bg-[#faf6f0] border border-[#e5dcce] font-mono text-[11px] text-[#483d33]">${tag}</span>`
+                      )
+                      .join('')}
+                  </div>
+                </div>
+              </div>
+
+              <div class="px-6 sm:px-7 pb-6 pt-3 flex items-center justify-between border-t border-[#f0e7d9]">
+                <button
+                  type="button"
+                  data-open-project="${proj.id}"
+                  class="open-project-btn inline-flex items-center gap-2 text-xs font-semibold text-[#1d1814] hover:text-accent transition-colors py-2"
+                >
+                  <span>Inspect Blueprint &amp; Specs</span>
+                  <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </button>
+              </div>
+            </article>
+          `
+          )
+          .join('');
+
+        document.querySelectorAll('.open-project-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-open-project');
+            const project = projects.find((p) => p.id === id);
+            if (project) openProjectModal(project);
+          });
+        });
+      }
+
+      renderProjects('all');
+
+      filterBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const filter = btn.getAttribute('data-filter');
+          filterBtns.forEach((b) => {
+            b.className = 'filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white text-[#483d33] border border-[#d6c7b1] hover:border-accent-soft transition-all';
+          });
+          btn.className = 'filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-[#1d1814] text-white transition-all shadow-sm';
+          renderProjects(filter);
+        });
+      });
+
+      /* Project Modal Logic */
+      const projectModal = document.getElementById('projectModal');
+      const closeModalBtn = document.getElementById('closeModalBtn');
+      const modalCloseSecondary = document.getElementById('modalCloseSecondary');
+      const modalInquireBtn = document.getElementById('modalInquireBtn');
+      const modalImageContainer = document.getElementById('modalImageContainer');
+      const modalImage = document.getElementById('modalImage');
+      const openFlagshipModalBtn = document.getElementById('openFlagshipModalBtn');
+
+      function openProjectModal(project) {
+        document.getElementById('modalCategoryBadge').textContent = project.categoryLabel;
+        document.getElementById('modalTitle').textContent = project.title;
+        document.getElementById('modalDescription').textContent = project.summary;
+
+        if (project.image) {
+          modalImage.src = project.image;
+          modalImageContainer.classList.remove('hidden');
+        } else {
+          modalImageContainer.classList.add('hidden');
+        }
+
+        document.getElementById('modalHighlights').innerHTML = project.highlights
+          .map((h) => `<li>${h}</li>`)
+          .join('');
+        document.getElementById('modalTags').innerHTML = project.tags
+          .map(
+            (t) =>
+              `<span class="px-3 py-1 rounded-xl bg-[#faf6f0] border border-[#e5dcce] font-mono text-xs text-[#3d3328]">${t}</span>`
+          )
+          .join('');
+
+        projectModal.classList.remove('hidden');
+        projectModal.classList.add('flex');
+      }
+
+      function closeProjectModal() {
+        projectModal.classList.add('hidden');
+        projectModal.classList.remove('flex');
+      }
+
+      if (openFlagshipModalBtn) {
+        openFlagshipModalBtn.addEventListener('click', () => {
+          const flagship = projects.find((p) => p.id === 'fan-cleaning-robot');
+          if (flagship) openProjectModal(flagship);
+        });
+      }
+
+      closeModalBtn.addEventListener('click', closeProjectModal);
+      modalCloseSecondary.addEventListener('click', closeProjectModal);
+      modalInquireBtn.addEventListener('click', closeProjectModal);
+      projectModal.addEventListener('click', (e) => {
+        if (e.target === projectModal) closeProjectModal();
+      });
+
+      /* --------------------------------------------------------------------------
+         9. INTERACTIVE STAR RATING & FEEDBACK BOARD (WITH NAME & STAR VISIBILITY)
+      -------------------------------------------------------------------------- */
+      const starButtonGroup = document.getElementById('starButtonGroup');
+      const selectedStarValue = document.getElementById('selectedStarValue');
+      const starRatingDescription = document.getElementById('starRatingDescription');
+      const evaluationForm = document.getElementById('evaluationForm');
+      const evaluatorName = document.getElementById('evaluatorName');
+      const evaluatorRole = document.getElementById('evaluatorRole');
+      const evaluatorTopic = document.getElementById('evaluatorTopic');
+      const evaluatorComment = document.getElementById('evaluatorComment');
+      const evaluatorNameError = document.getElementById('evaluatorNameError');
+      const evaluatorCommentError = document.getElementById('evaluatorCommentError');
+      const feedbackSuccessAlert = document.getElementById('feedbackSuccessAlert');
+      const feedbackFeed = document.getElementById('feedbackFeed');
+      const avgRatingDisplay = document.getElementById('avgRatingDisplay');
+      const totalReviewsCountText = document.getElementById('totalReviewsCountText');
+      const resetFeedbackBtn = document.getElementById('resetFeedbackBtn');
+
+      const starDescriptions = {
+        1: '★☆☆☆☆ 1 / 5 Stars — Needs Basic Conceptual Work',
+        2: '★★☆☆☆ 2 / 5 Stars — Fair Foundation, Needs Iteration',
+        3: '★★★☆☆ 3 / 5 Stars — Good Hardware Concept & Prototype',
+        4: '★★★★☆ 4 / 5 Stars — Very Strong Engineering Execution',
+        5: '★★★★★ 5 / 5 Stars — Outstanding Hardware Prototyping & Leadership!',
+      };
+
+      // Initial default evaluations
+      const defaultReviews = [
+        {
+          id: 1,
+          name: 'Prof. K. R. Mehta',
+          role: 'Faculty / Professor',
+          topic: 'Fan Cleaning Robot (3D Model)',
+          stars: 5,
+          comment: 'Exceptional electromechanical presentation by Henil Patel. The automatic rodless clamp architecture and counter-rotating microfiber roller design solve an authentic high-risk household issue. Well-structured CAD engineering and clear leadership.',
+          date: 'Nov 17, 2026',
+        },
+        {
+          id: 2,
+          name: 'Aarav V. Sharma',
+          role: 'Classmate / Peer',
+          topic: 'Fan Cleaning Robot (3D Model)',
+          stars: 5,
+          comment: 'The 3D model demonstration was the highlight of our lab session. Henil\'s explanation of the H-bridge motor driver circuitry and lateral guide wheels showed true hands-on team leadership.',
+          date: 'Nov 17, 2026',
+        },
+        {
+          id: 3,
+          name: 'Pooja Trivedi',
+          role: 'Lab Reviewer',
+          topic: 'Circuit & Network Analysis',
+          stars: 5,
+          comment: 'Thorough understanding of Star-Delta derivations and multi-loop nodal equations. High attention to hardware tolerances and systematic breadboard debugging.',
+          date: 'Nov 16, 2026',
+        },
+      ];
+
+      // Load persisted reviews from localStorage
+      function loadReviews() {
+        try {
+          const stored = localStorage.getItem('henil_feedback_reviews');
+          if (stored) {
+            const parsed = JSON.parse(stored);
+            if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+          }
+        } catch (e) {}
+        return [...defaultReviews];
+      }
+
+      let currentReviews = loadReviews();
+
+      // Render interactive 5-star selector buttons
+      let currentHoverStar = 0;
+      let currentSelectedStar = 5;
+
+      function renderStarSelector() {
+        if (!starButtonGroup) return;
+        starButtonGroup.innerHTML = [1, 2, 3, 4, 5]
+          .map((val) => {
+            const isFilled = (currentHoverStar || currentSelectedStar) >= val;
+            return `
+              <button
+                type="button"
+                data-star="${val}"
+                class="star-btn p-1 text-2xl focus:outline-none transition-transform"
+                aria-label="Rate ${val} star${val > 1 ? 's' : ''}"
+              >
+                <span class="${isFilled ? 'text-amber-500 fill-amber-500 drop-shadow-[0_0_6px_rgba(245,158,11,0.5)]' : 'text-[#d6c7b1]'}">★</span>
+              </button>
+            `;
+          })
+          .join('');
+
+        // Attach listeners
+        starButtonGroup.querySelectorAll('.star-btn').forEach((btn) => {
+          btn.addEventListener('mouseenter', () => {
+            currentHoverStar = parseInt(btn.getAttribute('data-star'));
+            renderStarSelector();
+            starRatingDescription.textContent = starDescriptions[currentHoverStar];
+          });
+
+          btn.addEventListener('click', () => {
+            currentSelectedStar = parseInt(btn.getAttribute('data-star'));
+            selectedStarValue.value = currentSelectedStar;
+            currentHoverStar = 0;
+            renderStarSelector();
+            starRatingDescription.textContent = starDescriptions[currentSelectedStar];
+          });
+        });
+
+        starButtonGroup.addEventListener('mouseleave', () => {
+          currentHoverStar = 0;
+          renderStarSelector();
+          starRatingDescription.textContent = starDescriptions[currentSelectedStar];
+        });
+      }
+
+      renderStarSelector();
+
+      // Helper to render star rating glyphs
+      function renderStarGlyphs(count) {
+        let stars = '';
+        for (let i = 1; i <= 5; i++) {
+          if (i <= count) {
+            stars += `<span class="text-amber-500 font-bold">★</span>`;
+          } else {
+            stars += `<span class="text-[#d9cdba]">★</span>`;
+          }
+        }
+        return stars;
+      }
+
+      // Compute Initials
+      function getInitials(name) {
+        const parts = name.trim().split(/\s+/);
+        if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
+        return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+      }
+
+      // Render the live evaluations feed
+      function renderFeedbackFeed() {
+        if (!feedbackFeed) return;
+
+        // Calculate average
+        const totalStars = currentReviews.reduce((sum, r) => sum + r.stars, 0);
+        const avg = currentReviews.length > 0 ? (totalStars / currentReviews.length).toFixed(1) : '5.0';
+        avgRatingDisplay.textContent = avg;
+        totalReviewsCountText.textContent = `${currentReviews.length} peer evaluation${currentReviews.length === 1 ? '' : 's'} recorded`;
+
+        feedbackFeed.innerHTML = currentReviews
+          .map(
+            (rev) => `
+            <div class="vintage-card rounded-2xl p-5 border border-[#dfd3c0] shadow-sm transition-all hover:border-accent">
+              <div class="flex items-start justify-between gap-3 mb-2">
+                <div class="flex items-center gap-3">
+                  <!-- Initials Avatar -->
+                  <div class="w-10 h-10 rounded-xl bg-[#faf6f0] border border-[#d9ccb9] text-[#b47834] font-serif font-bold text-sm flex items-center justify-center shrink-0 shadow-inner">
+                    ${getInitials(rev.name)}
+                  </div>
+                  <div>
+                    <h4 class="font-serif font-bold text-base text-[#1d1814] leading-tight flex items-center gap-2">
+                      <span>${rev.name}</span>
+                      <span class="inline-flex items-center px-2 py-0.5 rounded-md bg-[#eef6f0] text-emerald-800 border border-emerald-200 font-mono text-[9px] font-semibold">
+                        VERIFIED EVALUATOR
+                      </span>
+                    </h4>
+                    <span class="inline-block px-2 py-0.5 rounded-md bg-[#f4eee2] text-[#6b5a49] font-mono text-[10px] font-semibold mt-1">
+                      ${rev.role}
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Star Rating Badge -->
+                <div class="flex items-center gap-1.5 shrink-0 bg-[#faf6f0] px-2.5 py-1 rounded-xl border border-[#e2d5c1] shadow-inner">
+                  <div class="flex text-sm leading-none">
+                    ${renderStarGlyphs(rev.stars)}
+                  </div>
+                  <span class="font-mono text-xs font-bold text-[#1d1814] ml-0.5">${rev.stars}/5</span>
+                </div>
+              </div>
+
+              <!-- Topic & Date -->
+              <div class="flex flex-wrap items-center justify-between text-[11px] font-mono text-[#8c7d6b] my-2.5 pt-2 border-t border-[#f4ede0]">
+                <span class="text-accent font-semibold">◈ ${rev.topic}</span>
+                <span>${rev.date}</span>
+              </div>
+
+              <!-- Remarks -->
+              <p class="text-xs sm:text-sm text-[#483d33] leading-relaxed italic bg-[#faf6f0]/70 p-3 rounded-xl border border-[#ece1cf]">
+                "${rev.comment}"
+              </p>
+            </div>
+          `
+          )
+          .join('');
+      }
+
+      renderFeedbackFeed();
+
+      // Submit feedback handler
+      if (evaluationForm) {
+        evaluationForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          let isValid = true;
+
+          const nameVal = evaluatorName.value.trim();
+          const commentVal = evaluatorComment.value.trim();
+          const roleVal = evaluatorRole.value;
+          const topicVal = evaluatorTopic.value;
+          const starsVal = parseInt(selectedStarValue.value) || 5;
+
+          if (!nameVal) {
+            evaluatorNameError.classList.remove('hidden');
+            isValid = false;
+          } else {
+            evaluatorNameError.classList.add('hidden');
+          }
+
+          if (commentVal.length < 6) {
+            evaluatorCommentError.classList.remove('hidden');
+            isValid = false;
+          } else {
+            evaluatorCommentError.classList.add('hidden');
+          }
+
+          if (!isValid) return;
+
+          const now = new Date();
+          const dateStr = now.toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+          });
+
+          const newEntry = {
+            id: Date.now(),
+            name: nameVal,
+            role: roleVal,
+            topic: topicVal,
+            stars: starsVal,
+            comment: commentVal,
+            date: dateStr,
+          };
+
+          currentReviews.unshift(newEntry);
+          try {
+            localStorage.setItem('henil_feedback_reviews', JSON.stringify(currentReviews));
+          } catch (err) {}
+
+          renderFeedbackFeed();
+
+          // Show confirmation
+          feedbackSuccessAlert.classList.remove('hidden');
+          triggerBlink(true);
+          setSpeechStatus(`Thank you ${nameVal} for the ${starsVal}-star evaluation! ⚡`, 4000);
+
+          evaluatorName.value = '';
+          evaluatorComment.value = '';
+          currentSelectedStar = 5;
+          selectedStarValue.value = '5';
+          renderStarSelector();
+
+          setTimeout(() => {
+            feedbackSuccessAlert.classList.add('hidden');
+          }, 6000);
+        });
+      }
+
+      // Reset reviews to default
+      if (resetFeedbackBtn) {
+        resetFeedbackBtn.addEventListener('click', () => {
+          if (confirm('Reset review scoreboard back to initial faculty reviews?')) {
+            currentReviews = [...defaultReviews];
+            try {
+              localStorage.setItem('henil_feedback_reviews', JSON.stringify(currentReviews));
+            } catch (err) {}
+            renderFeedbackFeed();
+            setSpeechStatus('Scoreboard restored to initial faculty evaluations.', 2500);
+          }
+        });
+      }
+
+      /* --------------------------------------------------------------------------
+         10. MOBILE DRAWER, EMAIL COPY & CONTACT FORM
+      -------------------------------------------------------------------------- */
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      const mobileMenu = document.getElementById('mobileMenu');
+
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+
+      document.querySelectorAll('.mobile-nav-link').forEach((link) => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.add('hidden');
+        });
+      });
+
+      const copyEmailBtn = document.getElementById('copyEmailBtn');
+      const copyEmailLabel = document.getElementById('copyEmailLabel');
+      const emailAddressText = document.getElementById('emailAddressText').textContent.trim();
+
+      copyEmailBtn.addEventListener('click', () => {
+        const tempInput = document.createElement('textarea');
+        tempInput.value = emailAddressText;
+        tempInput.setAttribute('readonly', '');
+        tempInput.style.position = 'absolute';
+        tempInput.style.left = '-9999px';
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        try {
+          document.execCommand('copy');
+          copyEmailLabel.textContent = 'Copied!';
+          setSpeechStatus('Email copied to clipboard!', 2400);
+          setTimeout(() => {
+            copyEmailLabel.textContent = 'Copy';
+          }, 2200);
+        } catch (err) {
+          copyEmailLabel.textContent = 'Ready';
+        }
+        document.body.removeChild(tempInput);
+      });
+
+      const contactForm = document.getElementById('contactForm');
+      const senderName = document.getElementById('senderName');
+      const senderEmail = document.getElementById('senderEmail');
+      const senderMessage = document.getElementById('senderMessage');
+      const nameError = document.getElementById('nameError');
+      const emailError = document.getElementById('emailError');
+      const messageError = document.getElementById('messageError');
+      const formSuccessBanner = document.getElementById('formSuccessBanner');
+
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        let isValid = true;
+
+        if (!senderName.value.trim()) {
+          nameError.classList.remove('hidden');
+          isValid = false;
+        } else {
+          nameError.classList.add('hidden');
+        }
+
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(senderEmail.value.trim())) {
+          emailError.classList.remove('hidden');
+          isValid = false;
+        } else {
+          emailError.classList.add('hidden');
+        }
+
+        if (senderMessage.value.trim().length < 10) {
+          messageError.classList.remove('hidden');
+          isValid = false;
+        } else {
+          messageError.classList.add('hidden');
+        }
+
+        if (!isValid) return;
+
+        formSuccessBanner.classList.remove('hidden');
+        triggerBlink(true);
+        setSpeechStatus(`Message received from ${senderName.value.trim()}!`, 3500);
+        contactForm.reset();
+
+        setTimeout(() => {
+          formSuccessBanner.classList.add('hidden');
+        }, 6000);
+      });
+
+      /* --------------------------------------------------------------------------
+         11. INTERSECTION OBSERVER SCROLL REVEAL
+      -------------------------------------------------------------------------- */
+      const revealSections = document.querySelectorAll('.reveal-section');
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12 }
+      );
+
+      revealSections.forEach((sec) => observer.observe(sec));
+    });
+  </script>
+</body>
+</html>
